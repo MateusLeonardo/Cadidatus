@@ -9,6 +9,11 @@ internal class RegisterUserUseCase : IRegisterUserUseCase
     {
         await Validate(request);
 
+        return new ResponseRegisteredUserJson
+        {
+            Email = request.Email
+        };
+
     }
 
     private async Task Validate(RequestRegisterUserJson request)
