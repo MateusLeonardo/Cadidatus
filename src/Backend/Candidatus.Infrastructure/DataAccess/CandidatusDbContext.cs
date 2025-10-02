@@ -1,12 +1,17 @@
 ﻿using Candidatus.Domain.Entities;
+using Candidatus.Infrastructure.DataAccess.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Candidatus.Infrastructure.DataAccess;
 public class CandidatusDbContext : DbContext
 {
-    public CandidatusDbContext(DbContextOptions<CandidatusDbContext> options) : base(options)
-    {
-    }
+    public CandidatusDbContext(DbContextOptions<CandidatusDbContext> options) : base(options) { }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+    }
     DbSet<User> Users { get; set; }
 }
