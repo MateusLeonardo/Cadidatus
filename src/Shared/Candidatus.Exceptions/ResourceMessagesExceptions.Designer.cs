@@ -79,6 +79,33 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a E-mail inválido.
+        /// </summary>
+        public static string EMAIL_INVALID {
+            get {
+                return ResourceManager.GetString("EMAIL_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A senha não pode ser vazia.
+        /// </summary>
+        public static string PASSWORD_EMPTY {
+            get {
+                return ResourceManager.GetString("PASSWORD_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A senha precisa ter um mínimo de 6 caracteres.
+        /// </summary>
+        public static string PASSWORD_MIN_LENGTH {
+            get {
+                return ResourceManager.GetString("PASSWORD_MIN_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Erro desconhecido.
         /// </summary>
         public static string UNKNOW_ERROR {

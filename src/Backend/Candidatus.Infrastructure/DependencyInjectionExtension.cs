@@ -1,7 +1,9 @@
 ﻿using Candidatus.Domain.Repositories;
 using Candidatus.Domain.Repositories.User;
+using Candidatus.Domain.Security.Cryptography;
 using Candidatus.Infrastructure.DataAccess;
 using Candidatus.Infrastructure.DataAccess.Repositories;
+using Candidatus.Infrastructure.Security.CryptoGraphy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +15,7 @@ public static class DependencyInjectionExtension
     {
         AddRepositories(services);
         AddDbContext(services, configuration);
+        AddPasswordEncripter(services);
     }
 
     private static void AddRepositories(IServiceCollection services)
@@ -31,5 +34,10 @@ public static class DependencyInjectionExtension
         {
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         });
+    }
+
+    private static void AddPasswordEncripter(IServiceCollection services)
+    {
+        services.AddScoped<IPasswordEncripter, BCryptNet>();
     }
 }

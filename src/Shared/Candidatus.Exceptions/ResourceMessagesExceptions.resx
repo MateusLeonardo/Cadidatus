@@ -123,6 +123,15 @@
   <data name="EMAIL_EXISTS" xml:space="preserve">
     <value>E-mail já existe</value>
   </data>
+  <data name="EMAIL_INVALID" xml:space="preserve">
+    <value>E-mail inválido</value>
+  </data>
+  <data name="PASSWORD_EMPTY" xml:space="preserve">
+    <value>A senha não pode ser vazia</value>
+  </data>
+  <data name="PASSWORD_MIN_LENGTH" xml:space="preserve">
+    <value>A senha precisa ter um mínimo de 6 caracteres</value>
+  </data>
   <data name="UNKNOW_ERROR" xml:space="preserve">
     <value>Erro desconhecido</value>
   </data>
