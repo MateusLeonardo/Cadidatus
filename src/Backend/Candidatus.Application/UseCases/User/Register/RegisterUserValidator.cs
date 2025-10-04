@@ -8,5 +8,8 @@ internal class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson
     public RegisterUserValidator()
     {
         RuleFor(user => user.Email).NotEmpty().WithMessage(ResourceMessagesExceptions.EMAIL_EMPTY);
+        RuleFor(user => user.Email).EmailAddress().WithMessage(ResourceMessagesExceptions.EMAIL_INVALID);
+        RuleFor(user => user.Password).NotEmpty().WithMessage(ResourceMessagesExceptions.PASSWORD_EMPTY);
+        RuleFor(user => user.Password).MinimumLength(6).WithMessage(ResourceMessagesExceptions.PASSWORD_MIN_LENGTH);
     }
 }
