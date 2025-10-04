@@ -23,6 +23,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(255);
 
         builder.Property(u => u.CreatedOn)
-            .HasDefaultValueSql("getdate()");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
     }
 }

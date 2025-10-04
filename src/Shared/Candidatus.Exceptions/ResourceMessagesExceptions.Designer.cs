@@ -70,6 +70,15 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a E-mail já existe.
+        /// </summary>
+        public static string EMAIL_EXISTS {
+            get {
+                return ResourceManager.GetString("EMAIL_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Erro desconhecido.
         /// </summary>
         public static string UNKNOW_ERROR {
