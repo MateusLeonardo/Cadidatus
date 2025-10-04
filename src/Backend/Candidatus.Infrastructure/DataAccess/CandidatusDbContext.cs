@@ -13,5 +13,5 @@ public class CandidatusDbContext : DbContext
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
-    DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; }
 }
