@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Backend\Candidatus.Application\Candidatus.Application.csproj" />
+    <ProjectReference Include="..\..\src\Shared\Candidatus.Exceptions\Candidatus.Exceptions.csproj" />
     <ProjectReference Include="..\CommonTestUtilities\CommonTestUtilities.csproj" />
   </ItemGroup>
 
