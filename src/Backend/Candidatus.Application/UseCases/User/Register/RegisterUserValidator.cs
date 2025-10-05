@@ -3,7 +3,7 @@ using Candidatus.Exceptions;
 using FluentValidation;
 
 namespace Candidatus.Application.UseCases.User.Register;
-internal class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
+public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
 {
     public RegisterUserValidator()
     {
