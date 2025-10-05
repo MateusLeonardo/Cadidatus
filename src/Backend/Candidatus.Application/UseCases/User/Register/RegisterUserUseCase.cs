@@ -8,7 +8,7 @@ using Candidatus.Exceptions.ExceptionsBase;
 using MapsterMapper;
 
 namespace Candidatus.Application.UseCases.User.Register;
-internal class RegisterUserUseCase : IRegisterUserUseCase
+public class RegisterUserUseCase : IRegisterUserUseCase
 {
     private readonly IUserWriteOnlyRepository _userWriteOnlyRepository;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository;
