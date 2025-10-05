@@ -4,6 +4,7 @@ using CommonTestUtilities.Requests;
 using FluentAssertions;
 
 namespace Validators.Test.User.Register;
+
 public class RegisterUserValidatorTest
 {
     [Fact]
@@ -26,8 +27,8 @@ public class RegisterUserValidatorTest
         var result = validator.Validate(request);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle()
-            .And.Contain(e => e.ErrorMessage.Equals(ResourceMessagesExceptions.EMAIL_EMPTY));
+        result.Errors.Should().ContainSingle().And
+            .Contain(e => e.ErrorMessage.Equals(ResourceMessagesExceptions.EMAIL_EMPTY));
     }
 
     [Fact]
@@ -41,8 +42,8 @@ public class RegisterUserValidatorTest
         var result = validator.Validate(request);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle()
-            .And.Contain(e => e.ErrorMessage.Equals(ResourceMessagesExceptions.PASSWORD_EMPTY));
+        result.Errors.Should().ContainSingle().And
+            .Contain(e => e.ErrorMessage.Equals(ResourceMessagesExceptions.PASSWORD_EMPTY));
     }
 
     [Fact]
@@ -67,12 +68,12 @@ public class RegisterUserValidatorTest
     [InlineData(5)]
     public void Error_Password_Min_Length(int length)
     {
-        var request = RequestRegisterUserJsonBuilder.Build(passwordLength: length);
+        var request = RequestRegisterUserJsonBuilder.Build(length);
         var validator = new RegisterUserValidator();
         var result = validator.Validate(request);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle()
-            .And.Contain(e => e.ErrorMessage.Equals(ResourceMessagesExceptions.PASSWORD_MIN_LENGTH));
+        result.Errors.Should().ContainSingle().And
+            .Contain(e => e.ErrorMessage.Equals(ResourceMessagesExceptions.PASSWORD_MIN_LENGTH));
     }
 }
