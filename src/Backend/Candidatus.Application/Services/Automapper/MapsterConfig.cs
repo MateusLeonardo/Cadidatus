@@ -2,10 +2,19 @@
 using Candidatus.Communication.Responses;
 using Candidatus.Domain.Entities;
 using Mapster;
+using Sqids;
 
 namespace Candidatus.Application.Services.Automapper;
+
 public class MapsterConfig : IRegister
 {
+    private readonly SqidsEncoder<int> _encoder;
+
+    public MapsterConfig(SqidsEncoder<int> encoder)
+    {
+        _encoder = encoder;
+    }
+
     public void Register(TypeAdapterConfig config)
     {
         DomainToResponse(config);
@@ -13,14 +22,15 @@ public class MapsterConfig : IRegister
         config.Compile();
     }
 
-    private static void DomainToResponse(TypeAdapterConfig config)
+    private void DomainToResponse(TypeAdapterConfig config)
     {
-        config.NewConfig<User, ResponseRegisteredUserJson>();
+        config.NewConfig<User, ResponseRegisteredUserJson>()
+            .Map(dest => dest.Id, src => _encoder.Encode(src.Id));
     }
 
-    private static void RequestToDomain(TypeAdapterConfig config)
+    private void RequestToDomain(TypeAdapterConfig config)
     {
-        config.NewConfig<RequestRegisterUserJson, Domain.Entities.User>()
+        config.NewConfig<RequestRegisterUserJson, User>()
             .Ignore(u => u.Password);
     }
 }
