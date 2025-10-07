@@ -1,18 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Bogus" Version="35.6.4" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Bogus" Version="35.6.4"/>
+        <PackageReference Include="Moq" Version="4.20.72"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Backend\Candidatus.Domain\Candidatus.Domain.csproj" />
-    <ProjectReference Include="..\..\src\Shared\Candidatus.Communication\Candidatus.Communication.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Backend\Candidatus.Application\Candidatus.Application.csproj"/>
+        <ProjectReference Include="..\..\src\Backend\Candidatus.Domain\Candidatus.Domain.csproj"/>
+        <ProjectReference Include="..\..\src\Backend\Candidatus.Infrastructure\Candidatus.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\src\Shared\Candidatus.Communication\Candidatus.Communication.csproj"/>
+    </ItemGroup>
 
 </Project>
