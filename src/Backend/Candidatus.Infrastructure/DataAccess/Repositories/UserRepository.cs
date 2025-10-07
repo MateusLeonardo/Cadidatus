@@ -18,6 +18,11 @@ public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
     }
 
+    public async Task<bool> ExistUserWithEmail(string email)
+    {
+        return await _dbContext.Users.AnyAsync(u => u.Email == email);
+    }
+
     public async Task Add(User user)
     {
         await _dbContext.Users.AddAsync(user);

@@ -2,6 +2,7 @@
 using Candidatus.Application.UseCases.User.GetById;
 using Candidatus.Application.UseCases.User.Register;
 using Mapster;
+using MapsterMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sqids;
@@ -30,22 +31,21 @@ public static class DependencyInjectionExtension
             var sqids = provider.GetRequiredService<SqidsEncoder<int>>();
 
             var config = new TypeAdapterConfig();
-            config.Apply(new MapsterConfig(sqids));
+
+            new MapsterConfig(sqids).Register(config);
 
             return config;
         });
 
-        services.AddMapster();
+        services.AddScoped<IMapper, ServiceMapper>();
     }
 
     private static void AddIdEncoder(IServiceCollection services, IConfiguration configuration)
     {
-        var sqidsEncoder = new SqidsEncoder<int>(new SqidsOptions
+        services.AddSingleton(new SqidsEncoder<int>(new SqidsOptions
         {
             MinLength = 3,
             Alphabet = "k3G7QAe51FCsPW92uEOyq4Bg6Sp8YzVTmnU0liwDdHXLajZrfxNhobJIRcMvKt"
-        });
-
-        services.AddSingleton(sqidsEncoder);
+        }));
     }
 }
