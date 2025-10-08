@@ -45,6 +45,9 @@ namespace Candidatus.Infrastructure.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<Guid>("UserIdentifier")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.ToTable("users", (string)null);

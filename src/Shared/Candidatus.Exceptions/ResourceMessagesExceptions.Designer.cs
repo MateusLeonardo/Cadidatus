@@ -87,6 +87,15 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sem token na request.
+        /// </summary>
+        public static string NO_TOKEN {
+            get {
+                return ResourceManager.GetString("NO_TOKEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A senha não pode ser vazia.
         /// </summary>
         public static string PASSWORD_EMPTY {
@@ -119,6 +128,15 @@ namespace Candidatus.Exceptions {
         public static string USER_NOT_FOUND {
             get {
                 return ResourceManager.GetString("USER_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuário sem permissão para acessar recurso.
+        /// </summary>
+        public static string USER_WITHOUT_PERMISSION_ACCESS_RESOURCE {
+            get {
+                return ResourceManager.GetString("USER_WITHOUT_PERMISSION_ACCESS_RESOURCE", resourceCulture);
             }
         }
     }

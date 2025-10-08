@@ -1,5 +1,5 @@
-﻿using Candidatus.API.Binders;
-using Candidatus.Application.UseCases.User.GetById;
+﻿using Candidatus.API.Attributes;
+using Candidatus.Application.UseCases.User.Profile;
 using Candidatus.Application.UseCases.User.Register;
 using Candidatus.Communication.Requests;
 using Candidatus.Communication.Responses;
@@ -21,14 +21,12 @@ public class UserController : CandidatusBaseController
     }
 
     [HttpGet]
-    [Route("{id}")]
     [ProducesResponseType(typeof(ResponseUserJson), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById([FromServices] IGetUserByIdUseCase useCase,
-        [FromRoute] [ModelBinder(typeof(CandidatusIdBinder))]
-        int id)
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [AuthenticatedUser]
+    public async Task<IActionResult> GetUserProfile([FromServices] IGetUserProfileUseCase useCase)
     {
-        var response = await useCase.Execute(id);
+        var response = await useCase.Execute();
 
         return Ok(response);
     }

@@ -26,6 +26,9 @@ public class MapsterConfig : IRegister
     {
         config.NewConfig<User, ResponseRegisteredUserJson>()
             .Map(dest => dest.Id, src => _encoder.Encode(src.Id));
+
+        config.NewConfig<User, ResponseUserJson>()
+            .Map(dest => dest.Id, src => _encoder.Encode(src.Id));
     }
 
     private void RequestToDomain(TypeAdapterConfig config)

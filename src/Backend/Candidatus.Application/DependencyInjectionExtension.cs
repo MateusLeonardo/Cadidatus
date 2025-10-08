@@ -1,5 +1,5 @@
 ﻿using Candidatus.Application.Services.Automapper;
-using Candidatus.Application.UseCases.User.GetById;
+using Candidatus.Application.UseCases.User.Profile;
 using Candidatus.Application.UseCases.User.Register;
 using Mapster;
 using MapsterMapper;
@@ -21,7 +21,7 @@ public static class DependencyInjectionExtension
     private static void AddUseCases(IServiceCollection services)
     {
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
-        services.AddScoped<IGetUserByIdUseCase, GetUserByIdUseCase>();
+        services.AddScoped<IGetUserProfileUseCase, GetUserProfileUseCase>();
     }
 
     private static void AddAutoMapper(IServiceCollection services)

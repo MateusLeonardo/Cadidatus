@@ -1,5 +1,7 @@
 using Candidatus.API.Filters;
+using Candidatus.API.Token;
 using Candidatus.Application;
+using Candidatus.Domain.Security.Tokens;
 using Candidatus.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +13,10 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
+builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
+builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -31,12 +35,10 @@ if (app.Environment.IsDevelopment())
 }
 
 if (builder.Environment.IsDevelopment())
-{
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
         options.RoutePrefix = string.Empty;
     });
-}
 
 app.Run();

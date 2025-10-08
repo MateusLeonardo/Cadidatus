@@ -1,0 +1,34 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Candidatus.Domain.Security.Tokens;
+using Microsoft.IdentityModel.Tokens;
+
+namespace Candidatus.Infrastructure.Security.Tokens.Access.Validator;
+
+public class JwtTokenValidator : JwtTokenHandler, IAccessTokenValidator
+{
+    private readonly string _signinKey;
+
+    public JwtTokenValidator(string signinKey)
+    {
+        _signinKey = signinKey;
+    }
+
+    public Guid ValidateAndGetUserIdentifier(string token)
+    {
+        var validationParameter = new TokenValidationParameters
+        {
+            ValidateAudience = false,
+            ValidateIssuer = false,
+            IssuerSigningKey = SecurityKey(_signinKey),
+            ClockSkew = new TimeSpan(0)
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var principal = tokenHandler.ValidateToken(token, validationParameter, out _);
+
+        var userIdentifier = Guid.Parse(principal.Claims.First(c => c.Type == ClaimTypes.Sid).Value);
+
+        return userIdentifier;
+    }
+}

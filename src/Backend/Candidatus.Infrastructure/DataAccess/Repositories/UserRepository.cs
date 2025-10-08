@@ -32,4 +32,9 @@ public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
     }
+
+    public async Task<bool> ExistUserWithIdentifier(Guid userIdentifier)
+    {
+        return await _dbContext.Users.AnyAsync(user => user.UserIdentifier.Equals(userIdentifier));
+    }
 }
