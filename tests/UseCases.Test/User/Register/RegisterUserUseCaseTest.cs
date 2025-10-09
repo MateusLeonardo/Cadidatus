@@ -5,6 +5,7 @@ using CommonTestUtilities.Cryptography;
 using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
+using CommonTestUtilities.Tokens;
 using FluentAssertions;
 
 namespace UseCases.Test.User.Register;
@@ -21,6 +22,7 @@ public class RegisterUserUseCaseTest
 
         result.Should().NotBeNull();
         result.Email.Should().Be(request.Email);
+        result.Tokens.AccessToken.Should().NotBeNullOrWhiteSpace();
     }
 
     [Fact]
@@ -56,11 +58,11 @@ public class RegisterUserUseCaseTest
         var writeOnlyRepository = UserWriteOnlyRepositoryBuilder.Build();
         var unitOfWork = UnitOfWorkBuilder.Build();
         var readOnlyRepository = new UserReadOnlyRepositoryBuilder();
-
+        var tokenGenerator = JwtTokenGeneratorBuilder.Buid();
         if (!string.IsNullOrEmpty(email))
             readOnlyRepository.ExistUserWithEmail(email);
 
         return new RegisterUserUseCase(writeOnlyRepository, readOnlyRepository.Build(), unitOfWork, mapper,
-            passwordEncripter);
+            passwordEncripter, tokenGenerator);
     }
 }
