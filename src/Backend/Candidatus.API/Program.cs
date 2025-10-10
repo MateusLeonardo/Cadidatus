@@ -42,3 +42,7 @@ if (builder.Environment.IsDevelopment())
     });
 
 app.Run();
+
+public partial class Program
+{
+}
