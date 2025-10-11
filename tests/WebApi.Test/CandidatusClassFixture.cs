@@ -19,6 +19,12 @@ public class CandidatusClassFixture : IClassFixture<CustomWebApplicationFactory>
         return await _httpClient.PostAsJsonAsync(method, request);
     }
 
+    protected async Task<HttpResponseMessage> DoGet(string method, string token = "")
+    {
+        AuthorizeRequest(token);
+        return await _httpClient.GetAsync(method);
+    }
+
     private void AuthorizeRequest(string token)
     {
         if (string.IsNullOrWhiteSpace(token))
