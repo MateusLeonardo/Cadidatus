@@ -12,6 +12,8 @@ public class CandidatusDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new CompanyConfiguration());
     }
     public DbSet<User> Users { get; set; }
+    public DbSet<Company> Companies { get; set; }
 }
