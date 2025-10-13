@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Candidatus.Infrastructure.DataAccess.Repositories;
 
-public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository
+public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository, IUserUpdateOnlyRepository
 {
     private readonly CandidatusDbContext _dbContext;
 
