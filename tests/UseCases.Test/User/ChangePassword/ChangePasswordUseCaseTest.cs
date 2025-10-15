@@ -1,4 +1,7 @@
 ﻿using Candidatus.Application.UseCases.User.ChangePassword;
+using Candidatus.Exceptions;
+using Candidatus.Communication.Requests;
+using Candidatus.Exceptions.ExceptionsBase;
 using CommonTestUtilities.Cryptography;
 using CommonTestUtilities.Entities;
 using CommonTestUtilities.LoggedUser;
@@ -22,6 +25,39 @@ public class ChangePasswordUseCaseTest
         var act = async () => await useCase.Execute(request);
 
         await act.Should().NotThrowAsync();
+    }
+
+    [Fact]
+    public async Task Error_NewPassword_Empty()
+    {
+        var (user, password) = UserBuilder.Build();
+        var request = new RequestChangePasswordUserJson
+        {
+            Password = password,
+            NewPassword = string.Empty
+        };
+
+        var useCase = CreateUseCase(user);
+
+        var act = async () => await useCase.Execute(request);
+
+        await act.Should().ThrowAsync<ErrorOnValidationException>().Where(e =>
+            e.GetErrorMessages().Count == 1 && e.GetErrorMessages()
+            .Contains(ResourceMessagesExceptions.PASSWORD_EMPTY));
+    }
+
+    [Fact]
+    public async Task Error_Current_Password_Different()
+    {
+        var (user, _) = UserBuilder.Build();
+        var request = RequestChangePasswordBuilder.Build();
+        var useCase = CreateUseCase(user);
+
+        var act = async () => await useCase.Execute(request);
+
+        await act.Should().ThrowAsync<ErrorOnValidationException>().Where(e =>
+            e.GetErrorMessages().Count == 1 && e.GetErrorMessages()
+            .Contains(ResourceMessagesExceptions.PASSWORD_DIFFERENT_CURRENT_PASSWORD));
     }
 
     private static ChangePasswordUserUseCase CreateUseCase(Candidatus.Domain.Entities.User user)
