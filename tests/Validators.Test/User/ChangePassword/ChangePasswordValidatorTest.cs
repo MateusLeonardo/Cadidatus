@@ -9,7 +9,7 @@ public class ChangePasswordValidatorTest
     [Fact]
     public void Success()
     {
-        var request = RequestChangePasswordBuilder.Build();
+        var request = RequestChangePasswordUserJsonBuilder.Build();
         var result = new ChangePasswordUserValidator().Validate(request);
 
         result.IsValid.Should().BeTrue();
@@ -18,7 +18,7 @@ public class ChangePasswordValidatorTest
     [Fact]
     public void Error_Password_Empty()
     {
-        var request = RequestChangePasswordBuilder.Build();
+        var request = RequestChangePasswordUserJsonBuilder.Build();
         request.NewPassword = string.Empty;
 
         var validator = new ChangePasswordUserValidator();
@@ -38,7 +38,7 @@ public class ChangePasswordValidatorTest
     [InlineData(5)]
     public void Error_Password_Min_Lenght(int passwordLenght)
     {
-        var request = RequestChangePasswordBuilder.Build(passwordLenght);
+        var request = RequestChangePasswordUserJsonBuilder.Build(passwordLenght);
 
         var validator = new ChangePasswordUserValidator();
 
