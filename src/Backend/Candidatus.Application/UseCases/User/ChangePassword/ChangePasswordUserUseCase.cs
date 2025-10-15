@@ -37,6 +37,8 @@ public class ChangePasswordUserUseCase : IChangePasswordUserUseCase
 
         user.Password = _passwordEncripter.Encrypt(request.NewPassword);
 
+        _userUpdateOnlyRepository.Update(user);
+
         await _unitOfWork.CommitAsync();
     }
 

@@ -37,4 +37,9 @@ public class UserRepository : IUserWriteOnlyRepository, IUserReadOnlyRepository,
     {
         return await _dbContext.Users.AnyAsync(user => user.UserIdentifier.Equals(userIdentifier));
     }
+
+    public void Update(User user)
+    {
+        _dbContext.Users.Update(user);
+    }
 }
