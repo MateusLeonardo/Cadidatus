@@ -1,8 +1,8 @@
-using System.Net;
-using System.Text.Json;
 using Candidatus.Exceptions;
 using CommonTestUtilities.Requests;
 using FluentAssertions;
+using System.Net;
+using System.Text.Json;
 
 namespace WebApi.Test.User.Register;
 

@@ -1,6 +1,6 @@
 ﻿using Candidatus.Application.UseCases.User.ChangePassword;
-using Candidatus.Exceptions;
 using Candidatus.Communication.Requests;
+using Candidatus.Exceptions;
 using Candidatus.Exceptions.ExceptionsBase;
 using CommonTestUtilities.Cryptography;
 using CommonTestUtilities.Entities;
@@ -50,7 +50,7 @@ public class ChangePasswordUseCaseTest
     public async Task Error_Current_Password_Different()
     {
         var (user, _) = UserBuilder.Build();
-        var request = RequestChangePasswordBuilder.Build();
+        var request = RequestChangePasswordUserJsonBuilder.Build();
         var useCase = CreateUseCase(user);
 
         var act = async () => await useCase.Execute(request);
