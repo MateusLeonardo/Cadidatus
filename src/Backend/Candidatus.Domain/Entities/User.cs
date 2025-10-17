@@ -6,4 +6,5 @@ public class User : EntityBase
     public string Password { get; set; } = string.Empty;
     public Guid UserIdentifier { get; set; } = Guid.NewGuid();
     public IList<Company> Companies { get; set; } = [];
+    public IList<State> States { get; set; } = [];
 }
