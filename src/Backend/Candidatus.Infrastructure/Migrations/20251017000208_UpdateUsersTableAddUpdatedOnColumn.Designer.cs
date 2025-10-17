@@ -4,6 +4,7 @@ using Candidatus.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Candidatus.Infrastructure.Migrations
 {
     [DbContext(typeof(CandidatusDbContext))]
-    partial class CandidatusDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251017000208_UpdateUsersTableAddUpdatedOnColumn")]
+    partial class UpdateUsersTableAddUpdatedOnColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,44 +58,6 @@ namespace Candidatus.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("companies", (string)null);
-                });
-
-            modelBuilder.Entity("Candidatus.Domain.Entities.State", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Uf")
-                        .IsRequired()
-                        .HasMaxLength(2)
-                        .HasColumnType("varchar(2)");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("TIMESTAMP(6)")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime>("UpdatedOn"));
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Uf")
-                        .IsUnique();
-
-                    b.ToTable("states", (string)null);
                 });
 
             modelBuilder.Entity("Candidatus.Domain.Entities.User", b =>
