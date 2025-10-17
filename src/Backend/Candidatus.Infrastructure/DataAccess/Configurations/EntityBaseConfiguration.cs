@@ -15,6 +15,12 @@ public abstract class EntityBaseConfiguration<T> : IEntityTypeConfiguration<T> w
 
         builder.Property(x => x.CreatedOn)
             .IsRequired()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)");
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6)")
+            .ValueGeneratedOnAdd();
+
+        builder.Property(x => x.UpdatedOn)
+            .HasColumnType("TIMESTAMP(6)")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)")
+            .ValueGeneratedOnAddOrUpdate();
     }
 }
