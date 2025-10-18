@@ -11,6 +11,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 {
     private string _password = string.Empty;
     private Candidatus.Domain.Entities.User _user = default!;
+    private Candidatus.Domain.Entities.State _state = default!;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -55,11 +56,16 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         return _password;
     }
 
+    public string GetStateUf() => _state.Uf;
+
     private void StartDatabase(CandidatusDbContext dbContext)
     {
         (_user, _password) = UserBuilder.Build();
+        _state = StateBuilder.Build();
+        _state.UserId = _user.Id;
 
         dbContext.Users.Add(_user);
+        dbContext.States.Add(_state);
 
         dbContext.SaveChanges();
     }
