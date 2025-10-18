@@ -150,4 +150,16 @@
   <data name="PASSWORD_DIFFERENT_CURRENT_PASSWORD" xml:space="preserve">
     <value>A senha inserida é diferente da senha atual.</value>
   </data>
+  <data name="UF_EXISTS" xml:space="preserve">
+    <value>Já existe um estado cadastrado com essa sigla</value>
+  </data>
+  <data name="STATE_EMPTY" xml:space="preserve">
+    <value>O nome do estado não pode ser vazio</value>
+  </data>
+  <data name="UF_EMPTY" xml:space="preserve">
+    <value>A sigla do estado não pode ser vazia</value>
+  </data>
+  <data name="UF_LENGTH" xml:space="preserve">
+    <value>A sigla do estado precisa ter exatamente 2 caracteres</value>
+  </data>
 </root>
