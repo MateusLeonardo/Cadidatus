@@ -25,6 +25,8 @@ public class StateConfiguration : EntityBaseConfiguration<State>
             .IsRequired()
             .HasMaxLength(2);
 
-        builder.HasIndex(s => s.Uf).IsUnique();
+        builder.HasOne(s => s.User)
+            .WithMany(u => u.States)
+            .HasForeignKey(s => s.UserId);
     }
 }

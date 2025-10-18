@@ -35,7 +35,7 @@ public class AuthenticatedUserFilter : IAsyncAuthorizationFilter
         }
         catch (SecurityTokenExpiredException)
         {
-            context.Result = new UnauthorizedObjectResult(new ResponseErrorJson("TokenIsExpired")
+            context.Result = new UnauthorizedObjectResult(new ResponseErrorJson("Tokens is expired")
             {
                 TokenIsExpired = true
             });

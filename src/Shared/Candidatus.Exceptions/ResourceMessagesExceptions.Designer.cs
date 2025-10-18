@@ -133,6 +133,42 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do estado não pode ser vazio.
+        /// </summary>
+        public static string STATE_EMPTY {
+            get {
+                return ResourceManager.GetString("STATE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A sigla do estado não pode ser vazia.
+        /// </summary>
+        public static string UF_EMPTY {
+            get {
+                return ResourceManager.GetString("UF_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Já existe um estado cadastrado com essa sigla.
+        /// </summary>
+        public static string UF_EXISTS {
+            get {
+                return ResourceManager.GetString("UF_EXISTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A sigla do estado precisa ter exatamente 2 caracteres.
+        /// </summary>
+        public static string UF_LENGTH {
+            get {
+                return ResourceManager.GetString("UF_LENGTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Erro desconhecido.
         /// </summary>
         public static string UNKNOW_ERROR {

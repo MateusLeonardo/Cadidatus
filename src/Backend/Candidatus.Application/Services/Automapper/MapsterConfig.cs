@@ -29,11 +29,15 @@ public class MapsterConfig : IRegister
 
         config.NewConfig<User, ResponseUserJson>()
             .Map(dest => dest.Id, src => _encoder.Encode(src.Id));
+
+        config.NewConfig<State, ResponseRegisteredStateJson>();
     }
 
     private void RequestToDomain(TypeAdapterConfig config)
     {
         config.NewConfig<RequestRegisterUserJson, User>()
             .Ignore(u => u.Password);
+
+        config.NewConfig<RequestRegisterStateJson, State>();
     }
 }
