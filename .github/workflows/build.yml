@@ -50,7 +50,7 @@ jobs:
         shell: powershell
         run: |
           # Usando o arquivo .sin existente
-          dotnet build "Cadidatus.sin" --configuration Release
+          dotnet build "Candidatus.sin" --configuration Release
 
       - name: Run Tests with Coverage
         shell: powershell
