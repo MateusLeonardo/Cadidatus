@@ -29,15 +29,14 @@ jobs:
     - name: Install SonarScanner
       run: dotnet tool install --global dotnet-sonarscanner
 
-    - name: Build and Analyze with Coverage
+    - name: Build and analyze
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       shell: powershell
       run: |
-        # Adiciona o SonarScanner ao PATH
         $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
 
-        # Inicia a análise
+        # Iniciar análise com suporte a cobertura
         dotnet sonarscanner begin `
           /k:"MateusLeonardo_Cadidatus" `
           /o:"mateusleonardo" `
@@ -46,26 +45,14 @@ jobs:
           /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" `
           /d:sonar.exclusions="**/bin/**,**/obj/**"
 
-        # Build do projeto principal
+        # Build completo da solução
         dotnet build Candidatus.sln -c Release
 
-        # Roda os testes e gera o relatório de cobertura
-        dotnet test tests/UseCases.Test/UseCases.Test.csproj -c Release --no-build `
+        # Roda todos os testes automaticamente com cobertura
+        dotnet test Candidatus.sln -c Release --no-build `
           /p:CollectCoverage=true `
           /p:CoverletOutputFormat=opencover `
-          /p:CoverletOutput=../TestResults/UseCases.coverage.opencover.xml
+          /p:CoverletOutput=./TestResults/coverage.opencover.xml
 
-        dotnet test tests/Validators.Test/Validators.Test.csproj -c Release --no-build `
-          /p:CollectCoverage=true `
-          /p:CoverletOutputFormat=opencover `
-          /p:MergeWith=../TestResults/UseCases.coverage.opencover.xml `
-          /p:CoverletOutput=../TestResults/Validators.coverage.opencover.xml
-
-        dotnet test tests/WebApi.Test/WebApi.Test.csproj -c Release --no-build `
-          /p:CollectCoverage=true `
-          /p:CoverletOutputFormat=opencover `
-          /p:MergeWith=../TestResults/Validators.coverage.opencover.xml `
-          /p:CoverletOutput=../TestResults/WebApi.coverage.opencover.xml
-
-        # Finaliza a análise
+        # Finalizar análise
         dotnet sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
