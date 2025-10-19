@@ -1,83 +1,52 @@
-name: SonarQube
+name: SonarQube with OpenCover
 
 on:
   push:
-    branches:
-      - develop
+    branches: [develop]
   pull_request:
-    types: [opened, synchronize, reopened]
+    branches: [develop]
 
 jobs:
   build:
-    name: Build, Test and Analyze
     runs-on: windows-latest
-
+    
     steps:
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: 'zulu'
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.x'
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.x'
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'zulu'
 
-      - name: Install SonarQube Cloud scanner
-        shell: powershell
-        run: |
-          dotnet tool install --global dotnet-sonarscanner
+    - name: Install SonarScanner
+      run: dotnet tool install --global dotnet-sonarscanner
 
-      - name: Display project structure
-        shell: powershell
-        run: |
-          Write-Host "=== Estrutura do Projeto ==="
-          Get-ChildItem -Recurse -Include *.csproj | Format-Table FullName
+    - name: Install OpenCover (se necessário)
+      shell: powershell
+      run: |
+        choco install opencover.portable -y
 
-      - name: Begin SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
-          dotnet sonarscanner begin /k:"MateusLeonardo_Cadidatus" /o:"mateusleonardo" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths="**/coverage.cobertura.xml"
-
-      - name: Build Solution
-        shell: powershell
-        run: |
-          dotnet build --configuration Release
-
-      - name: Run Tests with Coverage
-        shell: powershell
-        run: |
-          # Executar testes com cobertura
-          $testProjects = @(
-            "tests/UseCases.Test/UseCases.Test.csproj",
-            "tests/Validators.Test/Validators.Test.csproj", 
-            "tests/WebApi.Test/WebApi.Test.csproj",
-            "tests/CommonTestUtilities/CommonTestUtilities.csproj"
-          )
-          
-          foreach ($testProj in $testProjects) {
-            if (Test-Path $testProj) {
-              Write-Host "Running tests for: $testProj"
-              dotnet test "$testProj" --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory TestResults -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
-            }
-          }
-
-      - name: List Coverage Files
-        shell: powershell
-        run: |
-          Write-Host "=== Arquivos de Coverage Encontrados ==="
-          Get-ChildItem -Recurse -Path TestResults -Include *.xml | ForEach-Object { Write-Host $_.FullName }
-
-      - name: End SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
-          dotnet sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
+    - name: Build and analyze
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      shell: powershell
+      run: |
+        # Iniciar análise sem configuração de coverage inicial
+        dotnet sonarscanner begin /k:"MateusLeonardo_Cadidatus" /o:"mateusleonardo" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io"
+        
+        # Build
+        dotnet build -c Release
+        
+        # Testes sem cobertura inicialmente
+        dotnet test -c Release --logger trx
+        
+        # Finalizar análise
+        dotnet sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
