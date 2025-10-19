@@ -36,7 +36,7 @@ jobs:
       run: |
         $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
 
-        # Iniciar análise com suporte a cobertura
+        # Inicia a análise com suporte a cobertura
         dotnet sonarscanner begin `
           /k:"MateusLeonardo_Cadidatus" `
           /o:"mateusleonardo" `
@@ -45,14 +45,14 @@ jobs:
           /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" `
           /d:sonar.exclusions="**/bin/**,**/obj/**"
 
-        # Build completo da solução
-        dotnet build Candidatus.sln -c Release
+        # Build completo da solução (sem nome do .sln)
+        dotnet build -c Release
 
-        # Roda todos os testes automaticamente com cobertura
-        dotnet test Candidatus.sln -c Release --no-build `
+        # Roda todos os testes com cobertura
+        dotnet test -c Release --no-build `
           /p:CollectCoverage=true `
           /p:CoverletOutputFormat=opencover `
           /p:CoverletOutput=./TestResults/coverage.opencover.xml
 
-        # Finalizar análise
+        # Finaliza a análise
         dotnet sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
