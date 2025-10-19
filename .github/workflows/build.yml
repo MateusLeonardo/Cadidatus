@@ -23,50 +23,53 @@ jobs:
         with:
           fetch-depth: 0  
 
-      - name: Cache SonarQube Cloud packages
-        uses: actions/cache@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: Cache SonarQube Cloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v4
-        with:
-          path: ${{ runner.temp }}\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
+          dotnet-version: '8.x'
 
       - name: Install SonarQube Cloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
-          New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
+          dotnet tool install --global dotnet-sonarscanner
+
+      - name: Display project structure (debug)
+        shell: powershell
+        run: |
+          Write-Host "=== Estrutura do Projeto ==="
+          Get-ChildItem -Recurse -Include *.sln, *.sin, *.csproj | Format-Table FullName
 
       - name: Begin SonarQube Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
-          & $scanner begin /k:"MateusLeonardo_Cadidatus" /o:"mateusleonardo" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="TestResults/**/*.xml"
+          dotnet sonarscanner begin /k:"MateusLeonardo_Candidatus" /o:"mateusleonardo" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.coverageReportPaths="coverage.xml" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
 
       - name: Build Solution
         shell: powershell
-        run: dotnet build Candidatus.sln
+        run: |
+          # Usando o arquivo .sin existente
+          dotnet build "Caddatus.sin" --configuration Release
 
-      - name: Run Tests and Collect Coverage
+      - name: Run Tests with Coverage
         shell: powershell
         run: |
+          # Executar testes de todos os projetos na pasta tests
           $testProjects = @(
-            "tests\UseCases.Test",
-            "tests\Validators.Test",
-            "tests\WebApi.Test"
+            "tests/UseCases.Test/UseCases.Test.csproj",
+            "tests/Validators.Test/Validators.Test.csproj", 
+            "tests/WebApi.Test/WebApi.Test.csproj",
+            "tests/CommonTestUtilities/CommonTestUtilities.csproj"
           )
-          foreach ($proj in $testProjects) {
-            dotnet test $proj --collect:"XPlat Code Coverage" --results-directory:"TestResults\$($proj -replace '\\','_')"
+          
+          foreach ($testProj in $testProjects) {
+            if (Test-Path $testProj) {
+              Write-Host "Running tests for: $testProj"
+              dotnet test "$testProj" --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory TestResults -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+            } else {
+              Write-Warning "Test project not found: $testProj"
+            }
           }
 
       - name: End SonarQube Analysis
@@ -74,5 +77,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
-          & $scanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
