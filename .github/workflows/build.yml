@@ -1,44 +1,84 @@
-name: SonarQube Simple
+name: SonarQube
 
 on:
   push:
-    branches: [develop]
+    branches:
+      - develop
   pull_request:
-    branches: [develop]
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
+    name: Build, Test and Analyze
     runs-on: windows-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.x'
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  
 
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'zulu'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
 
-    - name: Install SonarScanner
-      run: dotnet tool install --global dotnet-sonarscanner
+      - name: Install SonarQube Cloud scanner
+        shell: powershell
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
 
-    - name: Build and analyze
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        dotnet sonarscanner begin /k:"MateusLeonardo_Candidatus" /o:"mateusleonardo" /d:sonar.token="$SONAR_TOKEN"
-        
-        # Build recursivo - funciona mesmo com arquivo solution com nome/extensão diferente
-        dotnet build -c Release
-        
-        # Teste recursivo
-        dotnet test -c Release --collect:"XPlat Code Coverage" --results-directory TestResults
-        
-        dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+      - name: Display project structure
+        shell: powershell
+        run: |
+          Write-Host "=== Estrutura do Projeto ==="
+          Get-ChildItem -Recurse -Include *.sln, *.sin, *.csproj | Format-Table FullName
+
+      - name: Begin SonarQube Analysis
+        shell: powershell
+        run: |
+          dotnet sonarscanner begin /k:"MateusLeonardo_Candidatus" /o:"mateusleonardo" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths="**/coverage.cobertura.xml" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+
+      - name: Build Solution
+        shell: powershell
+        run: |
+          dotnet build --configuration Release
+
+      - name: Run Tests with Coverage
+        shell: powershell
+        run: |
+          # Instalar coverlet coletor se necessário
+          dotnet tool install --global coverlet.console
+          
+          # Executar testes com cobertura
+          $testProjects = @(
+            "tests/UseCases.Test/UseCases.Test.csproj",
+            "tests/Validators.Test/Validators.Test.csproj", 
+            "tests/WebApi.Test/WebApi.Test.csproj",
+            "tests/CommonTestUtilities/CommonTestUtilities.csproj"
+          )
+          
+          foreach ($testProj in $testProjects) {
+            if (Test-Path $testProj) {
+              Write-Host "Running tests for: $testProj"
+              dotnet test "$testProj" --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory TestResults -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
+            } else {
+              Write-Warning "Test project not found: $testProj"
+            }
+          }
+
+      - name: List Coverage Files
+        shell: powershell
+        run: |
+          Write-Host "=== Arquivos de Coverage Encontrados ==="
+          Get-ChildItem -Recurse -Path TestResults -Include *.xml | Format-Table FullName
+
+      - name: End SonarQube Analysis
+        shell: powershell
+        run: |
+          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
