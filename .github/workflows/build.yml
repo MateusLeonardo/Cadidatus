@@ -1,29 +1,35 @@
 name: SonarQube
+
 on:
   push:
     branches:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
-    name: Build and analyze
+    name: Build, Test and Analyze
     runs-on: windows-latest
+
     steps:
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: 'zulu'
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  
+
       - name: Cache SonarQube Cloud packages
         uses: actions/cache@v4
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache SonarQube Cloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v4
@@ -31,17 +37,42 @@ jobs:
           path: ${{ runner.temp }}\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
+
       - name: Install SonarQube Cloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
-      - name: Build and analyze
+
+      - name: Begin SonarQube Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"MateusLeonardo_Cadidatus" /o:"mateusleonardo" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-          dotnet build
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
+          & $scanner begin /k:"MateusLeonardo_Cadidatus" /o:"mateusleonardo" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="TestResults/**/*.xml"
+
+      - name: Build Solution
+        shell: powershell
+        run: dotnet build Candidatus.sln
+
+      - name: Run Tests and Collect Coverage
+        shell: powershell
+        run: |
+          $testProjects = @(
+            "tests\UseCases.Test",
+            "tests\Validators.Test",
+            "tests\WebApi.Test"
+          )
+          foreach ($proj in $testProjects) {
+            dotnet test $proj --collect:"XPlat Code Coverage" --results-directory:"TestResults\$($proj -replace '\\','_')"
+          }
+
+      - name: End SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
+          & $scanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
