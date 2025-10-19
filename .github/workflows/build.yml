@@ -37,12 +37,14 @@ jobs:
         shell: powershell
         run: |
           Write-Host "=== Estrutura do Projeto ==="
-          Get-ChildItem -Recurse -Include *.sln, *.sin, *.csproj | Format-Table FullName
+          Get-ChildItem -Recurse -Include *.csproj | Format-Table FullName
 
       - name: Begin SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          dotnet sonarscanner begin /k:"MateusLeonardo_Candidatus" /o:"mateusleonardo" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths="**/coverage.cobertura.xml" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+          dotnet sonarscanner begin /k:"MateusLeonardo_Cadidatus" /o:"mateusleonardo" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths="**/coverage.cobertura.xml"
 
       - name: Build Solution
         shell: powershell
@@ -52,9 +54,6 @@ jobs:
       - name: Run Tests with Coverage
         shell: powershell
         run: |
-          # Instalar coverlet coletor se necessário
-          dotnet tool install --global coverlet.console
-          
           # Executar testes com cobertura
           $testProjects = @(
             "tests/UseCases.Test/UseCases.Test.csproj",
@@ -67,8 +66,6 @@ jobs:
             if (Test-Path $testProj) {
               Write-Host "Running tests for: $testProj"
               dotnet test "$testProj" --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory TestResults -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
-            } else {
-              Write-Warning "Test project not found: $testProj"
             }
           }
 
@@ -76,9 +73,11 @@ jobs:
         shell: powershell
         run: |
           Write-Host "=== Arquivos de Coverage Encontrados ==="
-          Get-ChildItem -Recurse -Path TestResults -Include *.xml | Format-Table FullName
+          Get-ChildItem -Recurse -Path TestResults -Include *.xml | ForEach-Object { Write-Host $_.FullName }
 
       - name: End SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          dotnet sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
