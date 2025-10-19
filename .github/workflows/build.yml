@@ -43,16 +43,25 @@ jobs:
           /d:sonar.token="$env:SONAR_TOKEN" `
           /d:sonar.host.url="https://sonarcloud.io" `
           /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" `
-          /d:sonar.exclusions="**/bin/**,**/obj/**"
+          /d:sonar.coverage.exclusions="**/Program.cs,**/Migrations/**,**/*.cshtml,**/*.css,**/*.js" `
+          /d:sonar.exclusions="**/bin/**,**/obj/**,**/Migrations/**,**/wwwroot/**" `
+          /d:sonar.qualitygate.wait=true
 
-        # Build completo da solução (sem nome do .sln)
+        # Build completo da solução
         dotnet build -c Release
 
         # Roda todos os testes com cobertura
         dotnet test -c Release --no-build `
           /p:CollectCoverage=true `
           /p:CoverletOutputFormat=opencover `
-          /p:CoverletOutput=./TestResults/coverage.opencover.xml
+          /p:CoverletOutput=./coverage.opencover.xml
+
+        # Verifica se os arquivos de cobertura foram gerados
+        Write-Host "=== Procurando arquivos de cobertura ==="
+        Get-ChildItem -Recurse -Filter "coverage.opencover.xml" | ForEach-Object {
+          Write-Host "Encontrado: $($_.FullName)"
+          Write-Host "Tamanho: $($_.Length) bytes"
+        }
 
         # Finaliza a análise
         dotnet sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
