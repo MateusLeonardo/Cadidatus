@@ -2,4 +2,6 @@
 public interface IStateReadOnlyRepository
 {
     public Task<bool> ExistsWithUf(Entities.User user, string uf);
+
+    public Task<IList<Entities.State>> FindAll(Entities.User user);
 }

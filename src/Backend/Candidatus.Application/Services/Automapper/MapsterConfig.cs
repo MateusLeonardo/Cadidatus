@@ -31,6 +31,11 @@ public class MapsterConfig : IRegister
             .Map(dest => dest.Id, src => _encoder.Encode(src.Id));
 
         config.NewConfig<State, ResponseRegisteredStateJson>();
+
+        config.NewConfig<State, ResponseStateJson>();
+
+        config.NewConfig<IList<State>, ResponseAllStateJson>()
+            .Map(dest => dest.States, src => src.Adapt<IList<ResponseStateJson>>());
     }
 
     private void RequestToDomain(TypeAdapterConfig config)

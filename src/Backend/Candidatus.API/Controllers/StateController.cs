@@ -1,4 +1,5 @@
 ﻿using Candidatus.API.Attributes;
+using Candidatus.Application.UseCases.State.FindAll;
 using Candidatus.Application.UseCases.State.Register;
 using Candidatus.Communication.Requests;
 using Candidatus.Communication.Responses;
@@ -19,5 +20,16 @@ public class StateController : CandidatusBaseController
         var response = await useCase.Execute(request);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ResponseAllStateJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [AuthenticatedUser]
+    public async Task<IActionResult> FindAll([FromServices] IFindAllStateUseCase useCase)
+    {
+        var response = await useCase.Execute();
+
+        return Ok(response);
     }
 }
