@@ -1,5 +1,6 @@
 ﻿using Candidatus.Application.Services.Automapper;
 using Candidatus.Application.UseCases.Login.DoLogin;
+using Candidatus.Application.UseCases.State.FindAll;
 using Candidatus.Application.UseCases.State.Register;
 using Candidatus.Application.UseCases.User.ChangePassword;
 using Candidatus.Application.UseCases.User.Profile;
@@ -30,6 +31,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IChangePasswordUserUseCase, ChangePasswordUserUseCase>();
 
         services.AddScoped<IRegisterStateUseCase, RegisterStateUseCase>();
+        services.AddScoped<IFindAllStateUseCase, FindAllStateUseCase>();
     }
 
     private static void AddAutoMapper(IServiceCollection services)
