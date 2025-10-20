@@ -41,7 +41,7 @@ if (builder.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty;
     });
 
-app.Run();
+await app.RunAsync();
 
 public partial class Program
 {
