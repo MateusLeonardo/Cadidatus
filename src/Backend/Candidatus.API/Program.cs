@@ -43,6 +43,6 @@ if (builder.Environment.IsDevelopment())
 
 await app.RunAsync();
 
-public partial class Program
+public static partial class Program
 {
 }
