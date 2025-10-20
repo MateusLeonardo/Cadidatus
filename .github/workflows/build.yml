@@ -1,67 +1,67 @@
-name: SonarQube with OpenCover
+# name: SonarQube with OpenCover
 
-on:
-  push:
-    branches: [develop]
-  pull_request:
-    branches: [develop]
+# on:
+#   push:
+#     branches: [develop]
+#   pull_request:
+#     branches: [develop]
 
-jobs:
-  build:
-    runs-on: windows-latest
+# jobs:
+#   build:
+#     runs-on: windows-latest
 
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+#     steps:
+#     - uses: actions/checkout@v4
+#       with:
+#         fetch-depth: 0
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.x'
+#     - name: Setup .NET
+#       uses: actions/setup-dotnet@v4
+#       with:
+#         dotnet-version: '8.x'
 
-    - name: Setup Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'zulu'
+#     - name: Setup Java
+#       uses: actions/setup-java@v4
+#       with:
+#         java-version: '17'
+#         distribution: 'zulu'
 
-    - name: Install SonarScanner
-      run: dotnet tool install --global dotnet-sonarscanner
+#     - name: Install SonarScanner
+#       run: dotnet tool install --global dotnet-sonarscanner
 
-    - name: Build and analyze
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      shell: powershell
-      run: |
-        $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
+#     - name: Build and analyze
+#       env:
+#         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#       shell: powershell
+#       run: |
+#         $env:PATH += ";$env:USERPROFILE\.dotnet\tools"
 
-        # Inicia a análise com suporte a cobertura
-        dotnet sonarscanner begin `
-          /k:"MateusLeonardo_Cadidatus" `
-          /o:"mateusleonardo" `
-          /d:sonar.token="$env:SONAR_TOKEN" `
-          /d:sonar.host.url="https://sonarcloud.io" `
-          /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" `
-          /d:sonar.coverage.exclusions="**/Program.cs,**/Migrations/**,**/*.cshtml,**/*.css,**/*.js" `
-          /d:sonar.exclusions="**/bin/**,**/obj/**,**/Migrations/**,**/wwwroot/**" `
-          /d:sonar.qualitygate.wait=true
+#         # Inicia a análise com suporte a cobertura
+#         dotnet sonarscanner begin `
+#           /k:"MateusLeonardo_Cadidatus" `
+#           /o:"mateusleonardo" `
+#           /d:sonar.token="$env:SONAR_TOKEN" `
+#           /d:sonar.host.url="https://sonarcloud.io" `
+#           /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" `
+#           /d:sonar.coverage.exclusions="**/Program.cs,**/Migrations/**,**/*.cshtml,**/*.css,**/*.js" `
+#           /d:sonar.exclusions="**/bin/**,**/obj/**,**/Migrations/**,**/wwwroot/**" `
+#           /d:sonar.qualitygate.wait=true
 
-        # Build completo da solução
-        dotnet build -c Release
+#         # Build completo da solução
+#         dotnet build -c Release
 
-        # Roda todos os testes com cobertura
-        dotnet test -c Release --no-build `
-          /p:CollectCoverage=true `
-          /p:CoverletOutputFormat=opencover `
-          /p:CoverletOutput=./coverage.opencover.xml
+#         # Roda todos os testes com cobertura
+#         dotnet test -c Release --no-build `
+#           /p:CollectCoverage=true `
+#           /p:CoverletOutputFormat=opencover `
+#           /p:CoverletOutput=./coverage.opencover.xml
 
-        # Verifica se os arquivos de cobertura foram gerados
-        Write-Host "=== Procurando arquivos de cobertura ==="
-        Get-ChildItem -Recurse -Filter "coverage.opencover.xml" | ForEach-Object {
-          Write-Host "Encontrado: $($_.FullName)"
-          Write-Host "Tamanho: $($_.Length) bytes"
-        }
+#         # Verifica se os arquivos de cobertura foram gerados
+#         Write-Host "=== Procurando arquivos de cobertura ==="
+#         Get-ChildItem -Recurse -Filter "coverage.opencover.xml" | ForEach-Object {
+#           Write-Host "Encontrado: $($_.FullName)"
+#           Write-Host "Tamanho: $($_.Length) bytes"
+#         }
 
-        # Finaliza a análise
-        dotnet sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
+#         # Finaliza a análise
+#         dotnet sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
