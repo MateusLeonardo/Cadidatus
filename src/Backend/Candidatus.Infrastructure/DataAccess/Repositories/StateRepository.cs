@@ -17,5 +17,5 @@ public class StateRepository : IStateWriteOnlyRepository, IStateReadOnlyReposito
         await _dbContext.States.AnyAsync(s => s.UserId == user.Id && s.Uf == uf);
 
     public async Task<IList<State>> FindAll(Domain.Entities.User user) =>
-        await _dbContext.States.AsNoTracking().Where(s => s.UserId == user.Id).ToListAsync();
+        await _dbContext.States.AsNoTracking().Where(s => s.UserId == user.Id).OrderBy(x => x.Name).ToListAsync();
 }
