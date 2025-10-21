@@ -9,7 +9,8 @@ public class FindAllStateUseCase : IFindAllStateUseCase
     private readonly ILoggedUser _loggedUser;
     private readonly IStateReadOnlyRepository _readOnlyRepository;
     private readonly IMapper _mapper;
-    public FindAllStateUseCase(ILoggedUser loggedUser,
+    public FindAllStateUseCase(
+        ILoggedUser loggedUser,
         IStateReadOnlyRepository repository,
         IMapper mapper)
     {
