@@ -1,10 +1,10 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Candidatus.Domain.Entities;
 using Candidatus.Domain.Security.Tokens;
 using Candidatus.Domain.Services.LoggedUser;
 using Candidatus.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Candidatus.Infrastructure.Services.LoggedUser;
 
