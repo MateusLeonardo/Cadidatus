@@ -142,6 +142,15 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O estado não existe.
+        /// </summary>
+        public static string STATE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("STATE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A sigla do estado não pode ser vazia.
         /// </summary>
         public static string UF_EMPTY {
