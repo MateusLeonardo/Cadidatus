@@ -5,6 +5,7 @@ using CommonTestUtilities.Entities;
 using CommonTestUtilities.LoggedUser;
 using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
+using CommonTestUtilities.Repositories.State;
 using CommonTestUtilities.Requests;
 using FluentAssertions;
 

@@ -4,6 +4,7 @@ using Candidatus.Exceptions.ExceptionsBase;
 using CommonTestUtilities.Cryptography;
 using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
+using CommonTestUtilities.Repositories.User;
 using CommonTestUtilities.Requests;
 using CommonTestUtilities.Tokens;
 using FluentAssertions;

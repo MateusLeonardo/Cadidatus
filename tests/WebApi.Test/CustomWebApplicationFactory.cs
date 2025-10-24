@@ -56,13 +56,22 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         return _password;
     }
 
+    public Candidatus.Domain.Entities.State GetState()
+    {
+        return _state;
+    }
+
+    public Candidatus.Domain.Entities.User GetUser()
+    {
+        return _user;
+    }
+
     public string GetStateUf() => _state.Uf;
 
     private void StartDatabase(CandidatusDbContext dbContext)
     {
         (_user, _password) = UserBuilder.Build();
-        _state = StateBuilder.Build();
-        _state.UserId = _user.Id;
+        _state = StateBuilder.Build(_user);
 
         dbContext.Users.Add(_user);
         dbContext.States.Add(_state);
