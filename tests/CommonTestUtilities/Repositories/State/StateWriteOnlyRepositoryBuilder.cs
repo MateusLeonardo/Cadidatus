@@ -1,7 +1,7 @@
 ﻿using Candidatus.Domain.Repositories.State;
 using Moq;
 
-namespace CommonTestUtilities.Repositories;
+namespace CommonTestUtilities.Repositories.State;
 public class StateWriteOnlyRepositoryBuilder
 {
     public static IStateWriteOnlyRepository Build()
