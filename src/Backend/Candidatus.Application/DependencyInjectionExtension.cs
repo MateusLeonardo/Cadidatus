@@ -1,5 +1,6 @@
 ﻿using Candidatus.Application.Services.Automapper;
 using Candidatus.Application.UseCases.Login.DoLogin;
+using Candidatus.Application.UseCases.State.Delete;
 using Candidatus.Application.UseCases.State.FindAll;
 using Candidatus.Application.UseCases.State.Register;
 using Candidatus.Application.UseCases.State.Update;
@@ -34,6 +35,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IRegisterStateUseCase, RegisterStateUseCase>();
         services.AddScoped<IFindAllStateUseCase, FindAllStateUseCase>();
         services.AddScoped<IUpdateStateUseCase, UpdateStateUseCase>();
+        services.AddScoped<IDeleteStateUseCase, DeleteStateUseCase>();
     }
 
     private static void AddAutoMapper(IServiceCollection services)

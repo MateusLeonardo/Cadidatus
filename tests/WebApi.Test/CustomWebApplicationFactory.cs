@@ -1,5 +1,6 @@
 using Candidatus.Infrastructure.DataAccess;
 using CommonTestUtilities.Entities;
+using CommonTestUtilities.IdEncryption;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -67,6 +68,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     }
 
     public string GetStateUf() => _state.Uf;
+
+    public string GetStateId() => IdEncripterBuilder.Build().Encode(_state.Id);
 
     private void StartDatabase(CandidatusDbContext dbContext)
     {

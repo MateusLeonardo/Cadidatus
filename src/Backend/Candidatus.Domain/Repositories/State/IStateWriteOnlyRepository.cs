@@ -1,5 +1,7 @@
 ﻿namespace Candidatus.Domain.Repositories.State;
 public interface IStateWriteOnlyRepository
 {
-    public Task Add(Entities.State state);
+    Task Add(Entities.State state);
+    Task Delete(int id);
+
 }

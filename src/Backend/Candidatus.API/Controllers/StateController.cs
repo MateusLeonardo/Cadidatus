@@ -1,4 +1,6 @@
 ﻿using Candidatus.API.Attributes;
+using Candidatus.API.Binders;
+using Candidatus.Application.UseCases.State.Delete;
 using Candidatus.Application.UseCases.State.FindAll;
 using Candidatus.Application.UseCases.State.Register;
 using Candidatus.Application.UseCases.State.Update;
@@ -35,17 +37,32 @@ public class StateController : CandidatusBaseController
     }
 
     [HttpPut]
-    [Route("{id:int}")]
+    [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
     [AuthenticatedUser]
     public async Task<IActionResult> Update(
-        [FromRoute] int id,
+        [FromRoute][ModelBinder(typeof(CandidatusIdBinder))] int id,
         [FromBody] RequestUpdateStateJson request,
         [FromServices] IUpdateStateUseCase useCase)
     {
         await useCase.Execute(id, request);
+
+        return NoContent();
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    [AuthenticatedUser]
+    public async Task<IActionResult> Delete(
+        [FromRoute][ModelBinder(typeof(CandidatusIdBinder))] int id,
+        [FromServices] IDeleteStateUseCase useCase
+    )
+    {
+        await useCase.Execute(id);
 
         return NoContent();
     }

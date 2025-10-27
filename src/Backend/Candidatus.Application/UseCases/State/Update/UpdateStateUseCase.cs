@@ -33,7 +33,7 @@ public class UpdateStateUseCase : IUpdateStateUseCase
         if (state is null)
             throw new NotFoundException(ResourceMessagesExceptions.STATE_NOT_FOUND);
 
-        await Validate(request, loggedUser);
+        await Validate(request, loggedUser, id);
 
         state.Name = request.Name;
         state.Uf = request.Uf;
@@ -43,12 +43,12 @@ public class UpdateStateUseCase : IUpdateStateUseCase
         await _unitOfWork.CommitAsync();
     }
 
-    private async Task Validate(RequestUpdateStateJson request, Domain.Entities.User user)
+    private async Task Validate(RequestUpdateStateJson request, Domain.Entities.User user, int id)
     {
         var validator = new UpdateStateValidator();
         var result = await validator.ValidateAsync(request);
 
-        var newStateUfExists = await _stateReadOnlyRepository.ExistsWithUf(user, request.Uf);
+        var newStateUfExists = await _stateReadOnlyRepository.ExistsWithUfExceptId(user, request.Uf, id);
 
         if (newStateUfExists)
             result.Errors.Add(new FluentValidation.Results.ValidationFailure(string.Empty, ResourceMessagesExceptions.UF_EXISTS));
