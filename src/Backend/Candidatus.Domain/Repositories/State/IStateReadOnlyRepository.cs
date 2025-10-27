@@ -1,7 +1,10 @@
 ﻿namespace Candidatus.Domain.Repositories.State;
 public interface IStateReadOnlyRepository
 {
-    public Task<bool> ExistsWithUf(Entities.User user, string uf);
+    Task<bool> ExistsWithUf(Entities.User user, string uf);
 
-    public Task<IList<Entities.State>> FindAll(Entities.User user);
+    Task<IList<Entities.State>> FindAll(Entities.User user);
+
+    Task<Entities.State?> FindById(int id, Entities.User user);
+    Task<bool> ExistsWithUfExceptId(Domain.Entities.User user, string uf, int exceptId);
 }

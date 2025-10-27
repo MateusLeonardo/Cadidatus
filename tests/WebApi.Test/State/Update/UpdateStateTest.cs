@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text.Json;
 using Candidatus.Exceptions;
-using CommonTestUtilities.Entities;
+using CommonTestUtilities.IdEncryption;
 using CommonTestUtilities.Requests;
 using CommonTestUtilities.Tokens;
 using FluentAssertions;
@@ -13,10 +13,12 @@ public class UpdateStateTest : CandidatusClassFixture
     private readonly string METHOD = "state";
     private readonly Candidatus.Domain.Entities.State _state;
     private readonly Candidatus.Domain.Entities.User _user;
+    private readonly string _stateId;
     public UpdateStateTest(CustomWebApplicationFactory factory) : base(factory)
     {
         _state = factory.GetState();
         _user = factory.GetUser();
+        _stateId = factory.GetStateId();
     }
 
     [Fact]
@@ -25,7 +27,7 @@ public class UpdateStateTest : CandidatusClassFixture
         var token = JwtTokenGeneratorBuilder.Buid().Generate(_user.UserIdentifier);
         var request = RequestUpdateStateJsonBuilder.Build();
 
-        var response = await DoPut($"{METHOD}/{_state.Id}", request, token);
+        var response = await DoPut($"{METHOD}/{_stateId}", request, token);
 
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
     }
@@ -35,8 +37,8 @@ public class UpdateStateTest : CandidatusClassFixture
     {
         var token = JwtTokenGeneratorBuilder.Buid().Generate(_user.UserIdentifier);
         var request = RequestUpdateStateJsonBuilder.Build();
-
-        var response = await DoPut($"{METHOD}/12", request, token);
+        var id = IdEncripterBuilder.Build().Encode(1000);
+        var response = await DoPut($"{METHOD}/{id}", request, token);
 
         await using var responseBody = await response.Content.ReadAsStreamAsync();
 

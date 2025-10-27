@@ -11,6 +11,11 @@ public class StateReadOnlyRepositoryBuilder
         _repository.Setup(repo => repo.ExistsWithUf(user, uf)).ReturnsAsync(existsUf);
     }
 
+     public void ExistsWithUfExceptId(Candidatus.Domain.Entities.User user, string uf, int exceptId, bool exists)
+    {
+        _repository.Setup(repo => repo.ExistsWithUfExceptId(user, uf, exceptId)).ReturnsAsync(exists);
+    }
+
     public IStateReadOnlyRepository Build()
     {
         return _repository.Object;
