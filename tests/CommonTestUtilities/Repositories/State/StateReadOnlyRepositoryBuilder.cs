@@ -11,9 +11,14 @@ public class StateReadOnlyRepositoryBuilder
         _repository.Setup(repo => repo.ExistsWithUf(user, uf)).ReturnsAsync(existsUf);
     }
 
-     public void ExistsWithUfExceptId(Candidatus.Domain.Entities.User user, string uf, int exceptId, bool exists)
+    public void ExistsWithUfExceptId(Candidatus.Domain.Entities.User user, string uf, int exceptId, bool exists)
     {
         _repository.Setup(repo => repo.ExistsWithUfExceptId(user, uf, exceptId)).ReturnsAsync(exists);
+    }
+    
+    public void FindById(int id,Candidatus.Domain.Entities.User user ,Candidatus.Domain.Entities.State state)
+    {
+        _repository.Setup(repo => repo.FindById(id, user)).ReturnsAsync(state);
     }
 
     public IStateReadOnlyRepository Build()
