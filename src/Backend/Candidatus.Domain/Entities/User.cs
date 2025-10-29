@@ -7,4 +7,5 @@ public class User : EntityBase
     public Guid UserIdentifier { get; set; } = Guid.NewGuid();
     public IList<Company> Companies { get; set; } = [];
     public IList<State> States { get; set; } = [];
+    public IList<City> Cities { get; set; } = [];
 }
