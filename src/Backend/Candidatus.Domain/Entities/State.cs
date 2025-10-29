@@ -5,4 +5,5 @@ public class State : EntityBase
     public string Uf { get; set; } = string.Empty;
     public int UserId { get; set; }
     public User User { get; set; } = default!;
+    public IList<City> Cities { get; set; } = [];
 }
