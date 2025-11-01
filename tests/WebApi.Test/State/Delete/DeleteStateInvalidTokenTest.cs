@@ -7,7 +7,7 @@ namespace WebApi.Test.State.Delete;
 public class DeleteStateInvalidTokenTest : CandidatusClassFixture
 {
     private const string METHOD = "state";
-    private readonly string _stateId;
+    private readonly int _stateId;
     public DeleteStateInvalidTokenTest(CustomWebApplicationFactory factory) : base(factory)
     {
         _stateId = factory.GetStateId();
