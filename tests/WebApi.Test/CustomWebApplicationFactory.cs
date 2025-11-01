@@ -13,6 +13,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     private string _password = string.Empty;
     private Candidatus.Domain.Entities.User _user = default!;
     private Candidatus.Domain.Entities.State _state = default!;
+    private Candidatus.Domain.Entities.City _city = default!;
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -69,13 +70,14 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     public string GetStateUf() => _state.Uf;
 
-    public string GetStateId() => IdEncripterBuilder.Build().Encode(_state.Id);
+    public int GetStateId() => _state.Id;
 
     private void StartDatabase(CandidatusDbContext dbContext)
     {
         (_user, _password) = UserBuilder.Build();
         _state = StateBuilder.Build(_user);
-
+        _city = CityBuilder.Build(_user, _state);
+        
         dbContext.Users.Add(_user);
         dbContext.States.Add(_state);
 
