@@ -16,7 +16,11 @@ public class CityRepository : ICityWriteOnlyRepository, ICityReadOnlyRepository,
     public async Task<IList<City>> FindAll(User user) => await _dbContext.Cities
         .AsNoTracking().Where(c => c.UserId == user.Id).OrderBy(c => c.Name).Include(c => c.State).ToListAsync();
 
-    public async Task<City?> FindById(int id, User user) => await _dbContext.Cities.FirstOrDefaultAsync(c => c.Id == id && c.UserId == user.Id);
+    async Task<City?> ICityUpdateOnlyRepository.FindById(int id, User user) 
+        => await _dbContext.Cities.FirstOrDefaultAsync(c => c.Id == id && c.UserId == user.Id);
+
+    async Task<City?> ICityReadOnlyRepository.FindById(int id, User user) 
+        => await _dbContext.Cities.AsNoTracking().Include(c => c.State).FirstOrDefaultAsync(c => c.Id == id && c.UserId == user.Id);
 
     public void Update(City city) => _dbContext.Cities.Update(city);
 }
