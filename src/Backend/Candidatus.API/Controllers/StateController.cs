@@ -2,6 +2,7 @@
 using Candidatus.API.Binders;
 using Candidatus.Application.UseCases.State.Delete;
 using Candidatus.Application.UseCases.State.FindAll;
+using Candidatus.Application.UseCases.State.FindById;
 using Candidatus.Application.UseCases.State.Register;
 using Candidatus.Application.UseCases.State.Update;
 using Candidatus.Communication.Requests;
@@ -10,12 +11,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Candidatus.API.Controllers;
 
+[AuthenticatedUser]
 public class StateController : CandidatusBaseController
 {
     [HttpPost]
     [ProducesResponseType(typeof(ResponseRegisteredStateJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    [AuthenticatedUser]
     public async Task<IActionResult> Register(
         [FromBody] RequestRegisterStateJson request,
         [FromServices] IRegisterStateUseCase useCase)
@@ -28,10 +29,20 @@ public class StateController : CandidatusBaseController
     [HttpGet]
     [ProducesResponseType(typeof(ResponseAllStateJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    [AuthenticatedUser]
     public async Task<IActionResult> FindAll([FromServices] IFindAllStateUseCase useCase)
     {
         var response = await useCase.Execute();
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    [ProducesResponseType(typeof(ResponseStateJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> FindById([FromRoute] int id, [FromServices] IFindStateByIdUseCase useCase)
+    {
+        var response = await useCase.Execute(id);
 
         return Ok(response);
     }
@@ -41,9 +52,8 @@ public class StateController : CandidatusBaseController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
-    [AuthenticatedUser]
     public async Task<IActionResult> Update(
-        [FromRoute][ModelBinder(typeof(CandidatusIdBinder))] int id,
+        [FromRoute] int id,
         [FromBody] RequestUpdateStateJson request,
         [FromServices] IUpdateStateUseCase useCase)
     {
@@ -56,9 +66,8 @@ public class StateController : CandidatusBaseController
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
-    [AuthenticatedUser]
     public async Task<IActionResult> Delete(
-        [FromRoute][ModelBinder(typeof(CandidatusIdBinder))] int id,
+        [FromRoute] int id,
         [FromServices] IDeleteStateUseCase useCase
     )
     {
