@@ -1,5 +1,6 @@
 using Candidatus.API.Attributes;
 using Candidatus.Application.UseCases.City.FindAll;
+using Candidatus.Application.UseCases.City.FindOne;
 using Candidatus.Application.UseCases.City.Register;
 using Candidatus.Communication.Requests;
 using Candidatus.Communication.Responses;
@@ -30,6 +31,16 @@ namespace Candidatus.API.Controllers
         public async Task<IActionResult> FindAll([FromServices] IFindAllCitiyUseCase useCase)
         {
             var response = await useCase.Execute();
+            return Ok(response);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ResponseCityJson), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> FindOne([FromRoute] int id, [FromServices] IFindOneCityUseCase useCase)
+        {
+            var response = await useCase.Execute(id);
+            
             return Ok(response);
         }
     }

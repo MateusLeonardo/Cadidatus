@@ -165,4 +165,13 @@
   <data name="STATE_NOT_FOUND" xml:space="preserve">
     <value>O estado não existe</value>
   </data>
+  <data name="CITY_EMPTY" xml:space="preserve">
+    <value>A cidade não pode ser vazia</value>
+  </data>
+  <data name="STATE_INVALID" xml:space="preserve">
+    <value>O estado é inválido</value>
+  </data>
+  <data name="CITY_NOT_FOUND" xml:space="preserve">
+    <value>A cidade não existe</value>
+  </data>
 </root>

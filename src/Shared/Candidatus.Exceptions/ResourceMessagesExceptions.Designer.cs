@@ -61,6 +61,24 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A cidade não pode ser vazia.
+        /// </summary>
+        public static string CITY_EMPTY {
+            get {
+                return ResourceManager.GetString("CITY_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A cidade não existe.
+        /// </summary>
+        public static string CITY_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("CITY_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O e-mail não pode ser vazio.
         /// </summary>
         public static string EMAIL_EMPTY {
@@ -138,6 +156,15 @@ namespace Candidatus.Exceptions {
         public static string STATE_EMPTY {
             get {
                 return ResourceManager.GetString("STATE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O estado é inválido.
+        /// </summary>
+        public static string STATE_INVALID {
+            get {
+                return ResourceManager.GetString("STATE_INVALID", resourceCulture);
             }
         }
         
