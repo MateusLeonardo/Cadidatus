@@ -10,7 +10,7 @@ namespace WebApi.Test.State.Delete;
 public class DeleteStateTest : CandidatusClassFixture
 {
     private const string METHOD = "state";
-    private readonly string _stateId;
+    private readonly int _stateId;
     private readonly Guid _userIdentifier;
     public DeleteStateTest(CustomWebApplicationFactory factory) : base(factory)
     {
