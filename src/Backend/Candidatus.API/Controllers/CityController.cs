@@ -1,0 +1,36 @@
+using Candidatus.API.Attributes;
+using Candidatus.Application.UseCases.City.FindAll;
+using Candidatus.Application.UseCases.City.Register;
+using Candidatus.Communication.Requests;
+using Candidatus.Communication.Responses;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Candidatus.API.Controllers
+{
+    [AuthenticatedUser]
+    public class CityController : CandidatusBaseController
+    {
+        [HttpPost]
+        [ProducesResponseType(typeof(ResponseRegisteredCityJson), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Register
+        (
+            [FromBody] RequestRegisterCityJson request,
+            [FromServices] IRegisterCityUseCase useCase
+        )
+        {
+            var response = await useCase.Execute(request);
+
+            return Created(string.Empty, response);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ResponseAllCityJson), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> FindAll([FromServices] IFindAllCitiyUseCase useCase)
+        {
+            var response = await useCase.Execute();
+            return Ok(response);
+        }
+    }
+}
