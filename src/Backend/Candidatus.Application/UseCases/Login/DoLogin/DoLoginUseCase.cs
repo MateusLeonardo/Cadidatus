@@ -5,6 +5,7 @@ using Candidatus.Domain.Repositories.User;
 using Candidatus.Domain.Security.Cryptography;
 using Candidatus.Domain.Security.Tokens;
 using Candidatus.Exceptions.ExceptionsBase;
+using MapsterMapper;
 
 namespace Candidatus.Application.UseCases.Login.DoLogin;
 public class DoLoginUseCase : IDoLoginUseCase
@@ -12,14 +13,16 @@ public class DoLoginUseCase : IDoLoginUseCase
     private readonly IUserReadOnlyRepository _userReadOnlyRepository;
     private readonly IAccessTokenGenerator _accessTokenGenerator;
     private readonly IPasswordEncripter _passwordEncripter;
-
+    private readonly IMapper _mapper;
     public DoLoginUseCase(IUserReadOnlyRepository userReadOnly,
         IAccessTokenGenerator accessToken,
-        IPasswordEncripter passwordEncripter)
+        IPasswordEncripter passwordEncripter,
+        IMapper mapper)
     {
         _userReadOnlyRepository = userReadOnly;
         _accessTokenGenerator = accessToken;
         _passwordEncripter = passwordEncripter;
+        _mapper = mapper;
     }
     public async Task<ResponseLoginJson> Execute(RequestLoginJson request)
     {
@@ -32,6 +35,7 @@ public class DoLoginUseCase : IDoLoginUseCase
 
         return new ResponseLoginJson
         {
+            User = _mapper.Map<ResponseUserJson>(user),
             Tokens =
             {
                 AccessToken = _accessTokenGenerator.Generate(user.UserIdentifier)
