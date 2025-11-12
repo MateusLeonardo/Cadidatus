@@ -2,6 +2,7 @@ using Candidatus.API.Attributes;
 using Candidatus.Application.UseCases.City.FindAll;
 using Candidatus.Application.UseCases.City.FindOne;
 using Candidatus.Application.UseCases.City.Register;
+using Candidatus.Application.UseCases.City.Update;
 using Candidatus.Communication.Requests;
 using Candidatus.Communication.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +43,20 @@ namespace Candidatus.API.Controllers
             var response = await useCase.Execute(id);
             
             return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(
+            [FromRoute] int id, 
+            [FromBody] RequestUpdateCityJson request, 
+            [FromServices] IUpdateCityUseCase useCase)
+        {
+            await useCase.Execute(id, request);
+            return NoContent();
         }
     }
 }
