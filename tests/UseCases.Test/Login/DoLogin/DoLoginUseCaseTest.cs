@@ -4,6 +4,7 @@ using Candidatus.Exceptions;
 using Candidatus.Exceptions.ExceptionsBase;
 using CommonTestUtilities.Cryptography;
 using CommonTestUtilities.Entities;
+using CommonTestUtilities.Mapper;
 using CommonTestUtilities.Repositories;
 using CommonTestUtilities.Requests;
 using CommonTestUtilities.Tokens;
@@ -47,10 +48,10 @@ public class DoLoginUseCaseTest
         var readOnlyRepository = new UserReadOnlyRepositoryBuilder();
         var accessToken = JwtTokenGeneratorBuilder.Buid();
         var passwordEncripter = PasswordEncripterBuilder.Build();
-
+        var mapper = MapperBuilder.Build();
         if (user is not null)
             readOnlyRepository.GetByEmail(user);
 
-        return new DoLoginUseCase(readOnlyRepository.Build(), accessToken, passwordEncripter);
+        return new DoLoginUseCase(readOnlyRepository.Build(), accessToken, passwordEncripter, mapper);
     }
 }
