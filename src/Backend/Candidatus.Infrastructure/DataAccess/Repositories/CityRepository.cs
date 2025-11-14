@@ -23,4 +23,11 @@ public class CityRepository : ICityWriteOnlyRepository, ICityReadOnlyRepository,
         => await _dbContext.Cities.AsNoTracking().Include(c => c.State).FirstOrDefaultAsync(c => c.Id == id && c.UserId == user.Id);
 
     public void Update(City city) => _dbContext.Cities.Update(city);
+
+    public async Task Delete(int id)
+    {
+        var city = await _dbContext.Cities.FindAsync(id);
+
+        _dbContext.Cities.Remove(city!);
+    }
 }

@@ -1,4 +1,5 @@
 using Candidatus.API.Attributes;
+using Candidatus.Application.UseCases.City.Delete;
 using Candidatus.Application.UseCases.City.FindAll;
 using Candidatus.Application.UseCases.City.FindOne;
 using Candidatus.Application.UseCases.City.Register;
@@ -56,6 +57,18 @@ namespace Candidatus.API.Controllers
             [FromServices] IUpdateCityUseCase useCase)
         {
             await useCase.Execute(id, request);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(
+            [FromRoute] int id, 
+            [FromServices] IDeleteCityUseCase useCase)
+        {
+            await useCase.Execute(id);
             return NoContent();
         }
     }
