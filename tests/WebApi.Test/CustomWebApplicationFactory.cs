@@ -82,7 +82,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         
         dbContext.Users.Add(_user);
         dbContext.States.Add(_state);
-
+        dbContext.Cities.Add(_city);
+        
         dbContext.SaveChanges();
     }
 }
