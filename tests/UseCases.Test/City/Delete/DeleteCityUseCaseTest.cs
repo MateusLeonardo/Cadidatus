@@ -1,5 +1,7 @@
 using System;
 using Candidatus.Application.UseCases.City.Delete;
+using Candidatus.Exceptions;
+using Candidatus.Exceptions.ExceptionsBase;
 using CommonTestUtilities.Entities;
 using CommonTestUtilities.LoggedUser;
 using CommonTestUtilities.Repositories;
@@ -24,7 +26,23 @@ public class DeleteCityUseCaseTest
         await act.Should().NotThrowAsync();
     }
 
-    private static DeleteCityUseCase CreateUseCase(Candidatus.Domain.Entities.User user, Candidatus.Domain.Entities.City? city = null)
+    [Fact]
+    public async Task Error_City_Not_Found()
+    {
+        var (user, _) = UserBuilder.Build();
+        var state = StateBuilder.Build(user);
+        var city = CityBuilder.Build(user, state);
+        var useCase = CreateUseCase(user, city);
+
+        var act = async () => await useCase.Execute(99);
+
+        await act.Should().ThrowAsync<NotFoundException>()
+            .Where(err => err.GetErrorMessages().Count == 1 && err.GetErrorMessages().Contains(ResourceMessagesExceptions.CITY_NOT_FOUND));
+    }
+
+    private static DeleteCityUseCase CreateUseCase(
+        Candidatus.Domain.Entities.User user, 
+        Candidatus.Domain.Entities.City? city = null)
     {
         var loggedUser = LoggedUserBuilder.Build(user);
         var cityWriteOnlyRepository = CityWriteOnlyRepositoryBuilder.Build();

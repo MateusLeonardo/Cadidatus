@@ -2,6 +2,7 @@ using System;
 using Candidatus.Domain.Repositories;
 using Candidatus.Domain.Repositories.City;
 using Candidatus.Domain.Services.LoggedUser;
+using Candidatus.Exceptions;
 using Candidatus.Exceptions.ExceptionsBase;
 
 namespace Candidatus.Application.UseCases.City.Delete;
@@ -31,7 +32,7 @@ public class DeleteCityUseCase : IDeleteCityUseCase
         var city = await _cityReadOnlyRepository.FindById(id, loggedUser);
 
         if(city is null)
-            throw new NotFoundException("City not found.");
+            throw new NotFoundException(ResourceMessagesExceptions.CITY_NOT_FOUND);
 
         await _cityWriteOnlyRepository.Delete(city.Id);
         await _unitOfWork.CommitAsync();
