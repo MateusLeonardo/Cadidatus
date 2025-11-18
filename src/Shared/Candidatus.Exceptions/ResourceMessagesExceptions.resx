@@ -183,4 +183,7 @@
   <data name="COMPANY_LENGTH_INVALID" xml:space="preserve">
     <value>Nome da empresa muito longo</value>
   </data>
+  <data name="COMPANY_NOT_FOUND" xml:space="preserve">
+    <value>Empresa não existe</value>
+  </data>
 </root>
