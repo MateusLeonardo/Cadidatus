@@ -1,4 +1,5 @@
 ﻿using Candidatus.API.Attributes;
+using Candidatus.Application.UseCases.Company.FindAll;
 using Candidatus.Application.UseCases.Company.Register;
 using Candidatus.Communication.Requests;
 using Candidatus.Communication.Responses;
@@ -19,5 +20,15 @@ public class CompanyController : CandidatusBaseController
         var response = await useCase.Execute(request);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ResponseAllCompanyJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> FindAll([FromServices] IFindAllCompanyUseCase useCase)
+    {
+        var response = await useCase.Execute();
+
+        return Ok(response);
     }
 }

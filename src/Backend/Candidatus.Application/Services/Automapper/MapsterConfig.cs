@@ -45,6 +45,11 @@ public class MapsterConfig : IRegister
             .Map(dest => dest.Cities, src => src);
         
         config.NewConfig<Company, ResponseRegisteredCompanyJson>();
+
+        config.NewConfig<Company, ResponseCompanyJson>();
+
+        config.NewConfig<IList<Company>, ResponseAllCompanyJson>()
+            .Map(dest => dest.Companies, src => src);
     }
 
     private void RequestToDomain(TypeAdapterConfig config)
