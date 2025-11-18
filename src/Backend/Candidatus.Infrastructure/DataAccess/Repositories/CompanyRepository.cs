@@ -3,7 +3,7 @@ using Candidatus.Domain.Repositories.Company;
 using Microsoft.EntityFrameworkCore;
 
 namespace Candidatus.Infrastructure.DataAccess.Repositories;
-public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRepository
+public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRepository, ICompanyUpdateOnlyRepository
 {
     private readonly CandidatusDbContext _dbContext;
 
@@ -16,4 +16,10 @@ public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRe
 
     public async Task<IList<Company>> FindAll(User user) => await _dbContext.Companies
         .AsNoTracking().Where(c => c.UserId == user.Id).Include(c => c.City).ThenInclude(c => c.State).ToListAsync();
+
+
+    async Task<Company?> ICompanyUpdateOnlyRepository.FindById(int id, User user) => await _dbContext.Companies
+        .FirstOrDefaultAsync(c => c.Id == id && c.UserId == user.Id);
+
+    public void Update(Company company) => _dbContext.Companies.Update(company);
 }
