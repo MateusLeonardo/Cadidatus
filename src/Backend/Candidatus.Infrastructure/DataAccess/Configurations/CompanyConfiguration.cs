@@ -17,8 +17,14 @@ public class CompanyConfiguration : EntityBaseConfiguration<Company>
 
         builder.HasOne(c => c.User)
             .WithMany(u => u.Companies)
-            .HasForeignKey(u => u.UserId);
+            .HasForeignKey(c => c.UserId);
 
-        builder.HasIndex(u => u.UserId);
+        builder.HasIndex(c => c.UserId);
+
+        builder.HasOne(c => c.City)
+            .WithMany(c => c.Companies)
+            .HasForeignKey(c => c.CityId);
+
+        builder.HasIndex(c => c.CityId);
     }
 }
