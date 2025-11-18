@@ -7,4 +7,6 @@ public class City : EntityBase
     public int UserId { get; set; }
     public required State State { get; set; }
     public required User User { get; set; }
+
+    public IList<Company> Companies { get; set; } = [];
 }

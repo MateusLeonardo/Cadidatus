@@ -70,11 +70,38 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Cidade inválida.
+        /// </summary>
+        public static string CITY_INVALID {
+            get {
+                return ResourceManager.GetString("CITY_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A cidade não existe.
         /// </summary>
         public static string CITY_NOT_FOUND {
             get {
                 return ResourceManager.GetString("CITY_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome da empresa não pode ser vazio.
+        /// </summary>
+        public static string COMPANY_EMPTY {
+            get {
+                return ResourceManager.GetString("COMPANY_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome da empresa muito longo.
+        /// </summary>
+        public static string COMPANY_LENGTH_INVALID {
+            get {
+                return ResourceManager.GetString("COMPANY_LENGTH_INVALID", resourceCulture);
             }
         }
         

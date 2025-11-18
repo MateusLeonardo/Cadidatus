@@ -43,6 +43,8 @@ public class MapsterConfig : IRegister
 
         config.NewConfig<IList<City>, ResponseAllCityJson>()
             .Map(dest => dest.Cities, src => src);
+        
+        config.NewConfig<Company, ResponseRegisteredCompanyJson>();
     }
 
     private void RequestToDomain(TypeAdapterConfig config)
@@ -56,6 +58,9 @@ public class MapsterConfig : IRegister
             .Ignore(c => c.UserId);
 
         config.NewConfig<RequestUpdateCityJson, City>()
+            .Ignore(c => c.UserId);
+        
+        config.NewConfig<RequestRegisterCompanyJson, Company>()
             .Ignore(c => c.UserId);
     }
 }

@@ -174,4 +174,13 @@
   <data name="CITY_NOT_FOUND" xml:space="preserve">
     <value>A cidade não existe</value>
   </data>
+  <data name="COMPANY_EMPTY" xml:space="preserve">
+    <value>Nome da empresa não pode ser vazio</value>
+  </data>
+  <data name="CITY_INVALID" xml:space="preserve">
+    <value>Cidade inválida</value>
+  </data>
+  <data name="COMPANY_LENGTH_INVALID" xml:space="preserve">
+    <value>Nome da empresa muito longo</value>
+  </data>
 </root>
