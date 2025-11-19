@@ -21,5 +21,15 @@ public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRe
     async Task<Company?> ICompanyUpdateOnlyRepository.FindById(int id, User user) => await _dbContext.Companies
         .FirstOrDefaultAsync(c => c.Id == id && c.UserId == user.Id);
 
+    async Task<Company?> ICompanyReadOnlyRepository.FindById(int id, User user) => await _dbContext.Companies.AsNoTracking()
+        .FirstOrDefaultAsync(c => c.Id == id && c.UserId == user.Id);
+
     public void Update(Company company) => _dbContext.Companies.Update(company);
+
+    public async Task Delete(int id)
+    {
+        var company = await _dbContext.Companies.FindAsync(id);
+
+        _dbContext.Companies.Remove(company!);
+    }
 }
