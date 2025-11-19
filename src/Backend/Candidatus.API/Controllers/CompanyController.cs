@@ -1,4 +1,5 @@
 ﻿using Candidatus.API.Attributes;
+using Candidatus.Application.UseCases.Company.Delete;
 using Candidatus.Application.UseCases.Company.FindAll;
 using Candidatus.Application.UseCases.Company.Register;
 using Candidatus.Application.UseCases.Company.Update;
@@ -44,6 +45,19 @@ public class CompanyController : CandidatusBaseController
         [FromServices] IUpdateCompanyUseCase useCase)
     {
         await useCase.Execute(id, request);
+
+        return NoContent();
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(
+        [FromRoute] int id, 
+        [FromServices] IDeleteCompanyUseCase useCase)
+    {
+        await useCase.Execute(id);
 
         return NoContent();
     }
