@@ -8,4 +8,6 @@ public class User : EntityBase
     public IList<Company> Companies { get; set; } = [];
     public IList<State> States { get; set; } = [];
     public IList<City> Cities { get; set; } = [];
+
+    public IList<Platform> Platforms { get; set; } = [];
 }
