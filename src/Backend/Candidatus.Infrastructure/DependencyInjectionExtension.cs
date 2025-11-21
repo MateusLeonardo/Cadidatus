@@ -1,6 +1,7 @@
 ﻿using Candidatus.Domain.Repositories;
 using Candidatus.Domain.Repositories.City;
 using Candidatus.Domain.Repositories.Company;
+using Candidatus.Domain.Repositories.Platform;
 using Candidatus.Domain.Repositories.State;
 using Candidatus.Domain.Repositories.User;
 using Candidatus.Domain.Security.Cryptography;
@@ -48,6 +49,8 @@ public static class DependencyInjectionExtension
         services.AddScoped<ICompanyWriteOnlyRepository, CompanyRepository>();
         services.AddScoped<ICompanyReadOnlyRepository, CompanyRepository>();
         services.AddScoped<ICompanyUpdateOnlyRepository, CompanyRepository>();
+
+        services.AddScoped<IPlatformWriteOnlyRepository, PlatformRepository>();
     }
 
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
