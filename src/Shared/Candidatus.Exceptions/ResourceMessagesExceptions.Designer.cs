@@ -187,6 +187,15 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A plataforma não pode ser vazia.
+        /// </summary>
+        public static string PLATFORM_NAME_EMPTY {
+            get {
+                return ResourceManager.GetString("PLATFORM_NAME_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do estado não pode ser vazio.
         /// </summary>
         public static string STATE_EMPTY {
@@ -246,6 +255,24 @@ namespace Candidatus.Exceptions {
         public static string UNKNOW_ERROR {
             get {
                 return ResourceManager.GetString("UNKNOW_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A url não pode ser vazia.
+        /// </summary>
+        public static string URL_EMPTY {
+            get {
+                return ResourceManager.GetString("URL_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A url não é válida.
+        /// </summary>
+        public static string URL_INVALID {
+            get {
+                return ResourceManager.GetString("URL_INVALID", resourceCulture);
             }
         }
         

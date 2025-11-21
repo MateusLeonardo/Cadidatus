@@ -186,4 +186,13 @@
   <data name="COMPANY_NOT_FOUND" xml:space="preserve">
     <value>Empresa não existe</value>
   </data>
+  <data name="PLATFORM_NAME_EMPTY" xml:space="preserve">
+    <value>A plataforma não pode ser vazia</value>
+  </data>
+  <data name="URL_EMPTY" xml:space="preserve">
+    <value>A url não pode ser vazia</value>
+  </data>
+  <data name="URL_INVALID" xml:space="preserve">
+    <value>A url não é válida</value>
+  </data>
 </root>
