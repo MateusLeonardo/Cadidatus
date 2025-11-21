@@ -67,5 +67,8 @@ public class MapsterConfig : IRegister
         
         config.NewConfig<RequestRegisterCompanyJson, Company>()
             .Ignore(c => c.UserId);
+
+        config.NewConfig<RequestRegisterPlatformJson, Platform>()
+            .Ignore(p => p.UserId);
     }
 }
