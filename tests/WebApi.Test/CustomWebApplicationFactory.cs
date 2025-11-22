@@ -14,7 +14,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     private Candidatus.Domain.Entities.User _user = default!;
     private Candidatus.Domain.Entities.State _state = default!;
     private Candidatus.Domain.Entities.City _city = default!;
-
+    private Candidatus.Domain.Entities.Company _company = default!;
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Test")
@@ -68,6 +68,11 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         return _user;
     }
 
+    public int GetCompanyId()
+    {
+        return _company.Id;
+    }
+
     public string GetStateUf() => _state.Uf;
 
     public int GetStateId() => _state.Id;
@@ -79,11 +84,12 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         (_user, _password) = UserBuilder.Build();
         _state = StateBuilder.Build(_user);
         _city = CityBuilder.Build(_user, _state);
-        
+        _company = CompanyBuilder.Build(_user, _city);
+
         dbContext.Users.Add(_user);
         dbContext.States.Add(_state);
         dbContext.Cities.Add(_city);
-        
+        dbContext.Companies.Add(_company);
         dbContext.SaveChanges();
     }
 }
