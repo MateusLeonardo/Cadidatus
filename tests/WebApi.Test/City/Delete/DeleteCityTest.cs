@@ -1,4 +1,6 @@
 using System.Net;
+using System.Text.Json;
+using Candidatus.Exceptions;
 using CommonTestUtilities.Tokens;
 using FluentAssertions;
 
@@ -29,5 +31,13 @@ public class DeleteCityTest : CandidatusClassFixture
         var token = JwtTokenGeneratorBuilder.Buid().Generate(_userIdentifier);
         var response = await DoDelete($"{METHOD}/999999", token);
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+        await using var responseBody = await response.Content.ReadAsStreamAsync();
+
+        var responseData = await JsonDocument.ParseAsync(responseBody);
+
+        var errors = responseData.RootElement.GetProperty("errors").EnumerateArray();
+
+        errors.Should().ContainSingle().And.Contain(err => err.GetString()!.Contains(ResourceMessagesExceptions.CITY_NOT_FOUND));
     }
 }
