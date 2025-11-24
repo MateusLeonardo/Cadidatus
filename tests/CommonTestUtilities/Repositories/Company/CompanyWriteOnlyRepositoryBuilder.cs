@@ -5,9 +5,13 @@ namespace CommonTestUtilities.Repositories.Company;
 
 public class CompanyWriteOnlyRepositoryBuilder
 {
-    public static ICompanyWriteOnlyRepository Build()
+    private readonly Mock<ICompanyWriteOnlyRepository> _repository = new();
+
+    public CompanyWriteOnlyRepositoryBuilder Delete(Candidatus.Domain.Entities.Company company)
     {
-        var mock = new Mock<ICompanyWriteOnlyRepository>();
-        return mock.Object;
+        _repository.Setup(repo => repo.Delete(company.Id)).Returns(Task.CompletedTask);
+        return this;
     }
+
+    public ICompanyWriteOnlyRepository Build() => _repository.Object;
 }
