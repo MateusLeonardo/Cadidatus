@@ -11,4 +11,6 @@ public class CompanyReadOnlyRepositoryBuilder
     {
         _repository.Setup(repo => repo.FindById(company.Id, user)).ReturnsAsync(company);
     }
+
+    public ICompanyReadOnlyRepository Build() => _repository.Object;
 }
