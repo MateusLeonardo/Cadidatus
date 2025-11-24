@@ -39,7 +39,7 @@ public class RegisterCompanyUseCase : IRegisterCompanyUseCase
         var city = await _cityReadOnlyRepository.FindById(request.CityId, loggedUser);    
 
         if (city is null)
-            throw new NotFoundException(ResourceMessagesExceptions.CITY_INVALID);
+            throw new NotFoundException(ResourceMessagesExceptions.CITY_NOT_FOUND);
 
         var company = _mapper.Map<Domain.Entities.Company>(request);
         company.UserId = loggedUser.Id;
