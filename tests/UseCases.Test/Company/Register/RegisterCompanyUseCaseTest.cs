@@ -63,7 +63,7 @@ public class RegisterCompanyUseCaseTest
 
     private static RegisterCompanyUseCase CreateUseCase(Candidatus.Domain.Entities.User user, Candidatus.Domain.Entities.City? city = null)
     {
-        var companyWriteOnlyRepository = CompanyWriteOnlyRepositoryBuilder.Build();
+        var companyWriteOnlyRepository = new CompanyWriteOnlyRepositoryBuilder();
         var cityReadOnlyRepository = new CityReadOnlyRepositoryBuilder();
 
         if (city is not null)
@@ -73,6 +73,6 @@ public class RegisterCompanyUseCaseTest
         var unitOfWork = UnitOfWorkBuilder.Build();
         var mapper = MapperBuilder.Build();
 
-        return new RegisterCompanyUseCase(companyWriteOnlyRepository, loggedUser, cityReadOnlyRepository.Build(), unitOfWork, mapper);
+        return new RegisterCompanyUseCase(companyWriteOnlyRepository.Build(), loggedUser, cityReadOnlyRepository.Build(), unitOfWork, mapper);
     }
 }
