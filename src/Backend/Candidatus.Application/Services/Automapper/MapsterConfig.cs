@@ -50,6 +50,9 @@ public class MapsterConfig : IRegister
 
         config.NewConfig<IList<Company>, ResponseAllCompanyJson>()
             .Map(dest => dest.Companies, src => src);
+
+        config.NewConfig<IList<Platform>, ResponseAllPlatformJson>()
+            .Map(dest => dest.Platforms, src => src);
     }
 
     private void RequestToDomain(TypeAdapterConfig config)

@@ -1,4 +1,5 @@
 using Candidatus.API.Attributes;
+using Candidatus.Application.UseCases.Platform.FindAll;
 using Candidatus.Application.UseCases.Platform.Register;
 using Candidatus.Communication.Requests;
 using Candidatus.Communication.Responses;
@@ -17,5 +18,14 @@ public class PlatformController : CandidatusBaseController
     {
         await useCase.Execute(request);
         return Created(string.Empty, null);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ResponseAllPlatformJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> FindAll([FromServices] IFindAllPlatformUseCase useCase)
+    {
+        var response = await useCase.Execute();
+        return Ok(response);
     }
 }
