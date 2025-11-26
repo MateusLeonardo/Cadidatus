@@ -1,6 +1,5 @@
 using Candidatus.Infrastructure.DataAccess;
 using CommonTestUtilities.Entities;
-using CommonTestUtilities.IdEncryption;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +14,7 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     private Candidatus.Domain.Entities.State _state = default!;
     private Candidatus.Domain.Entities.City _city = default!;
     private Candidatus.Domain.Entities.Company _company = default!;
+    private Candidatus.Domain.Entities.Platform _platform = default!;
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseEnvironment("Test")
@@ -85,11 +85,13 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
         _state = StateBuilder.Build(_user);
         _city = CityBuilder.Build(_user, _state);
         _company = CompanyBuilder.Build(_user, _city);
-
+        _platform = PlatformBuilder.Build(_user);
+        
         dbContext.Users.Add(_user);
         dbContext.States.Add(_state);
         dbContext.Cities.Add(_city);
         dbContext.Companies.Add(_company);
+        dbContext.Platforms.Add(_platform);
         dbContext.SaveChanges();
     }
 }
