@@ -65,18 +65,17 @@ public class UpdateCompanyUseCaseTest
         Candidatus.Domain.Entities.City? city = null)
     {
         var loggedUser = LoggedUserBuilder.Build(user);
-        var updateOnlyRepository = new CompanyUpdateOnlyRepositoryBuilder();
         var cityReadOnlyRepository = new CityReadOnlyRepositoryBuilder();
-
         if (city is not null)
             cityReadOnlyRepository.FindById(city, user);
 
+        var updateOnlyRepository = new CompanyUpdateOnlyRepositoryBuilder();
         if (company is not null)
         {
-            updateOnlyRepository.FindById(user, company);
-            updateOnlyRepository.Update(company);
+            updateOnlyRepository
+                .FindById(user, company)
+                .Update(company);
         }
-
 
         var unitOfWork = UnitOfWorkBuilder.Build();
         return new UpdateCompanyUseCase(updateOnlyRepository.Build(), unitOfWork, loggedUser, cityReadOnlyRepository.Build());

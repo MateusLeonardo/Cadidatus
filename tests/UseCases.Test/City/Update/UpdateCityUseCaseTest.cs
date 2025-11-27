@@ -68,14 +68,14 @@ public class UpdateCityUseCaseTest
         Candidatus.Domain.Entities.State? state = null)
     {
         var cityUpdateOnlyRepository = new CityUpdateOnlyRepositoryBuilder();
-        var stateReadOnlyRepository = new StateReadOnlyRepositoryBuilder();
-
         if (city is not null)
         {
-            cityUpdateOnlyRepository.FindById(user, city);
-            cityUpdateOnlyRepository.Update(city);
+            cityUpdateOnlyRepository
+                .FindById(user, city)
+                .Update(city);
         }
 
+        var stateReadOnlyRepository = new StateReadOnlyRepositoryBuilder();
         if (state is not null)
             stateReadOnlyRepository.FindById(state.Id, user, state);
 

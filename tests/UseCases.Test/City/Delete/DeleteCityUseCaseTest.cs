@@ -46,9 +46,9 @@ public class DeleteCityUseCaseTest
     {
         var loggedUser = LoggedUserBuilder.Build(user);
         var cityWriteOnlyRepository = CityWriteOnlyRepositoryBuilder.Build();
-        var cityReadOnlyRepository = new CityReadOnlyRepositoryBuilder();
         var unitOfWork = UnitOfWorkBuilder.Build();
 
+        var cityReadOnlyRepository = new CityReadOnlyRepositoryBuilder();
         if (city is not null)
             cityReadOnlyRepository.FindById(city, user);
 

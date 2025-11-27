@@ -45,10 +45,10 @@ public class DeleteStateUseCaseTest
     )
     {
         var loggedUser = LoggedUserBuilder.Build(user);
-        var readOnlyRepository = new StateReadOnlyRepositoryBuilder();
         var writeOnlyRepository = StateWriteOnlyRepositoryBuilder.Build();
         var unitOfWork = UnitOfWorkBuilder.Build();
 
+        var readOnlyRepository = new StateReadOnlyRepositoryBuilder();
         if(state is not null)
             readOnlyRepository.FindById(state.Id, user, state);
 

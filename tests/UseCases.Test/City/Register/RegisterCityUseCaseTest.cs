@@ -60,7 +60,6 @@ public class RegisterCityUseCaseTest
     {
         var cityWriteOnlyRepository = CityWriteOnlyRepositoryBuilder.Build();
         var stateReadOnlyRepository = new StateReadOnlyRepositoryBuilder();
-
         if(state is not null)
             stateReadOnlyRepository.FindById(state.Id, user, state);
 

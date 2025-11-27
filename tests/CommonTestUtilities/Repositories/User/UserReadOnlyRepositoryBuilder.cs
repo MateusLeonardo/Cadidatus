@@ -7,14 +7,16 @@ public class UserReadOnlyRepositoryBuilder
 {
     private readonly Mock<IUserReadOnlyRepository> _repository = new();
 
-    public void GetByEmail(Candidatus.Domain.Entities.User user)
+    public UserReadOnlyRepositoryBuilder GetByEmail(Candidatus.Domain.Entities.User user)
     {
         _repository.Setup(repo => repo.GetByEmail(user.Email)).ReturnsAsync(user);
+        return this;
     }
 
-    public void ExistUserWithEmail(string email)
+    public UserReadOnlyRepositoryBuilder ExistUserWithEmail(string email)
     {
         _repository.Setup(repo => repo.ExistUserWithEmail(email)).ReturnsAsync(true);
+        return this;
     }
 
     public IUserReadOnlyRepository Build()

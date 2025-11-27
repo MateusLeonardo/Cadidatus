@@ -42,8 +42,8 @@ public class DeleteCompanyUseCaseTest
         Candidatus.Domain.Entities.User user, 
         Candidatus.Domain.Entities.Company? company = null)
     {
-        var deleteOnlyRepository = new CompanyWriteOnlyRepositoryBuilder();
         var readOnlyRepository = new CompanyReadOnlyRepositoryBuilder();
+        var deleteOnlyRepository = new CompanyWriteOnlyRepositoryBuilder();
 
         if(company is not null) {
             readOnlyRepository.FindById(company, user);

@@ -66,11 +66,11 @@ public class UpdatePlatformUseCaseTest
         Candidatus.Domain.Entities.Platform? platform = null)
     {
         var updateOnlyRepository = new PlatformUpdateOnlyRepositoryBuilder();
-
         if (platform is not null)
         {
-            updateOnlyRepository.FindById(user, platform);
-            updateOnlyRepository.Update(platform);
+            updateOnlyRepository
+                .FindById(user, platform)
+                .Update(platform);
         }
 
         var loggedUser = LoggedUserBuilder.Build(user);

@@ -86,14 +86,14 @@ public class UpdateStateUseCaseTest
         bool existingUfInOtherState = false
     )
     {
-        var updateOnlyRepository = new StateUpdateOnlyRepositoryBuilder();
-        var readOnlyRepository = new StateReadOnlyRepositoryBuilder();
         var loggedUser = LoggedUserBuilder.Build(user);
         var unitOfWork = UnitOfWorkBuilder.Build();
 
-        updateOnlyRepository.FindById(user, state, state.Id);
-        updateOnlyRepository.Update(state);
+        var updateOnlyRepository = new StateUpdateOnlyRepositoryBuilder()
+            .FindById(user, state, state.Id)
+            .Update(state);
 
+        var readOnlyRepository = new StateReadOnlyRepositoryBuilder();
         if (sameUfAsState)
         {
             readOnlyRepository.ExistsWithUfExceptId(user, requestUf, state.Id, false);

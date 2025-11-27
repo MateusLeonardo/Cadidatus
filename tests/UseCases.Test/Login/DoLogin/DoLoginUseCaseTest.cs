@@ -45,10 +45,11 @@ public class DoLoginUseCaseTest
 
     private static DoLoginUseCase CreateUseCase(Candidatus.Domain.Entities.User? user = null)
     {
-        var readOnlyRepository = new UserReadOnlyRepositoryBuilder();
         var accessToken = JwtTokenGeneratorBuilder.Buid();
         var passwordEncripter = PasswordEncripterBuilder.Build();
         var mapper = MapperBuilder.Build();
+        
+        var readOnlyRepository = new UserReadOnlyRepositoryBuilder();
         if (user is not null)
             readOnlyRepository.GetByEmail(user);
 

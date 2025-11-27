@@ -42,8 +42,8 @@ public class RegisterStateUseCaseTest
     }
     public static RegisterStateUseCase CreateUseCase(Candidatus.Domain.Entities.User user, string uf, bool existsUf)
     {
-        var readOnlyRepository = new StateReadOnlyRepositoryBuilder();
-        readOnlyRepository.ExistsWithUf(user, uf, existsUf);
+        var readOnlyRepository = new StateReadOnlyRepositoryBuilder()
+            .ExistsWithUf(user, uf, existsUf);
         var writeOnlyRepository = StateWriteOnlyRepositoryBuilder.Build();
         var loggedUser = LoggedUserBuilder.Build(user);
         var unitOfWork = UnitOfWorkBuilder.Build();

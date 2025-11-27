@@ -7,16 +7,18 @@ public class CityUpdateOnlyRepositoryBuilder
 {
     private readonly Mock<ICityUpdateOnlyRepository> _repository = new();
 
-    public void FindById(
+    public CityUpdateOnlyRepositoryBuilder FindById(
         Candidatus.Domain.Entities.User user,
         Candidatus.Domain.Entities.City city)
     {
         _repository.Setup(repo => repo.FindById(city.Id, user)).ReturnsAsync(city);
+        return this;
     }
 
-    public void Update(Candidatus.Domain.Entities.City city)
+    public CityUpdateOnlyRepositoryBuilder Update(Candidatus.Domain.Entities.City city)
     {
         _repository.Setup(repo => repo.Update(city));
+        return this;
     }
 
     public ICityUpdateOnlyRepository Build() => _repository.Object;

@@ -7,9 +7,10 @@ public class CompanyReadOnlyRepositoryBuilder
 {
     private readonly Mock<ICompanyReadOnlyRepository> _repository = new();
 
-    public void FindById(Candidatus.Domain.Entities.Company company, Candidatus.Domain.Entities.User user)
+    public CompanyReadOnlyRepositoryBuilder FindById(Candidatus.Domain.Entities.Company company, Candidatus.Domain.Entities.User user)
     {
         _repository.Setup(repo => repo.FindById(company.Id, user)).ReturnsAsync(company);
+        return this;
     }
 
     public ICompanyReadOnlyRepository Build() => _repository.Object;

@@ -65,7 +65,6 @@ public class RegisterCompanyUseCaseTest
     {
         var companyWriteOnlyRepository = new CompanyWriteOnlyRepositoryBuilder();
         var cityReadOnlyRepository = new CityReadOnlyRepositoryBuilder();
-
         if (city is not null)
             cityReadOnlyRepository.FindById(city, user);
 
