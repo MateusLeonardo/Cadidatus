@@ -79,6 +79,8 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     public int GetCityId() => _city.Id;
 
+    public int GetPlatformId() => _platform.Id;
+
     private void StartDatabase(CandidatusDbContext dbContext)
     {
         (_user, _password) = UserBuilder.Build();
