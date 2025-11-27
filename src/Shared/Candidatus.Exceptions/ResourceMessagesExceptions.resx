@@ -195,4 +195,7 @@
   <data name="URL_INVALID" xml:space="preserve">
     <value>A url não é válida</value>
   </data>
+  <data name="PLATFORM_NOT_FOUND" xml:space="preserve">
+    <value>Plataforma não existe</value>
+  </data>
 </root>

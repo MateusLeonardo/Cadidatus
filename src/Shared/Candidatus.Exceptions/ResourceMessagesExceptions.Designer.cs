@@ -196,6 +196,15 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Plataforma não existe.
+        /// </summary>
+        public static string PLATFORM_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("PLATFORM_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do estado não pode ser vazio.
         /// </summary>
         public static string STATE_EMPTY {

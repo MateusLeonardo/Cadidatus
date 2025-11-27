@@ -11,6 +11,7 @@ using Candidatus.Application.UseCases.Company.Update;
 using Candidatus.Application.UseCases.Login.DoLogin;
 using Candidatus.Application.UseCases.Platform.FindAll;
 using Candidatus.Application.UseCases.Platform.Register;
+using Candidatus.Application.UseCases.Platform.Update;
 using Candidatus.Application.UseCases.State.Delete;
 using Candidatus.Application.UseCases.State.FindAll;
 using Candidatus.Application.UseCases.State.FindById;
@@ -63,6 +64,7 @@ public static class DependencyInjectionExtension
 
         services.AddScoped<IRegisterPlatformUseCase, RegisterPlatformUseCase>();
         services.AddScoped<IFindAllPlatformUseCase, FindAllPlatformUseCase>();
+        services.AddScoped<IUpdatePlatformUseCase, UpdatePlatformUseCase>();
     }
 
     private static void AddAutoMapper(IServiceCollection services)
