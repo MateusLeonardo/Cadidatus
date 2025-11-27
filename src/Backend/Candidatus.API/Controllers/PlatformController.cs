@@ -1,4 +1,5 @@
 using Candidatus.API.Attributes;
+using Candidatus.Application.UseCases.Platform.Delete;
 using Candidatus.Application.UseCases.Platform.FindAll;
 using Candidatus.Application.UseCases.Platform.Register;
 using Candidatus.Application.UseCases.Platform.Update;
@@ -41,6 +42,18 @@ public class PlatformController : CandidatusBaseController
         [FromServices] IUpdatePlatformUseCase useCase)
     {
         await useCase.Execute(id, request);
+        return NoContent();
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(
+        [FromRoute] int id,
+        [FromServices] IDeletePlatformUseCase useCase)
+    {
+        await useCase.Execute(id);
         return NoContent();
     }
 }

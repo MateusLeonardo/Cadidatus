@@ -20,5 +20,15 @@ public class PlatformRepository : IPlatformWriteOnlyRepository, IPlatformReadOnl
     async Task<Domain.Entities.Platform?> IPlatformUpdateOnlyRepository.FindById(int id, Domain.Entities.User user) =>
         await _dbContext.Platforms.FirstOrDefaultAsync(p => p.Id == id && p.UserId == user.Id);
 
+    async Task<Domain.Entities.Platform?> IPlatformReadOnlyRepository.FindById(int id, Domain.Entities.User user) =>
+        await _dbContext.Platforms.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id && p.UserId == user.Id);
+
     public void Update(Domain.Entities.Platform platform) => _dbContext.Platforms.Update(platform);
+
+    public async Task Delete(int id)
+    {
+        var platform = await _dbContext.Platforms.FindAsync(id);
+
+        _dbContext.Platforms.Remove(platform!);
+    }
 }
