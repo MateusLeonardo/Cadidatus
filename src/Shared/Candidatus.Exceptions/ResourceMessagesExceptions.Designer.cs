@@ -19,7 +19,7 @@ namespace Candidatus.Exceptions {
     // através de uma ferramenta como ResGen ou Visual Studio.
     // Para adicionar ou remover um associado, edite o arquivo .ResX e execute ResGen novamente
     // com a opção /str, ou recrie o projeto do VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ResourceMessagesExceptions {
@@ -57,6 +57,33 @@ namespace Candidatus.Exceptions {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A descrição da vaga não pode ser vazia.
+        /// </summary>
+        public static string APPLICATION_DESCRIPTION_EMPTY {
+            get {
+                return ResourceManager.GetString("APPLICATION_DESCRIPTION_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O título da vaga não pode ser vazio.
+        /// </summary>
+        public static string APPLICATION_TITLE_EMPTY {
+            get {
+                return ResourceManager.GetString("APPLICATION_TITLE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Modo de trabalho inválido.
+        /// </summary>
+        public static string APPLICATION_WORKMODE_INVALID {
+            get {
+                return ResourceManager.GetString("APPLICATION_WORKMODE_INVALID", resourceCulture);
             }
         }
         
