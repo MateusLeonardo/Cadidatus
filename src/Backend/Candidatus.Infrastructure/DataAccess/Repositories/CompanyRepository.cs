@@ -32,4 +32,7 @@ public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRe
 
         _dbContext.Companies.Remove(company!);
     }
+
+    public async Task<bool> Exists(int id, User user) => await _dbContext.Companies
+        .AsNoTracking().AnyAsync(c => c.Id == id && c.UserId == user.Id);
 }
