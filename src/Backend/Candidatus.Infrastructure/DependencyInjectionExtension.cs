@@ -56,6 +56,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IPlatformUpdateOnlyRepository, PlatformRepository>();
 
         services.AddScoped<IApplicationWriteOnlyRepository, ApplicationRepository>();
+        services.AddScoped<IApplicationReadOnlyRepository, ApplicationRepository>();
     }
 
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
