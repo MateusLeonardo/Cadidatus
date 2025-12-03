@@ -207,4 +207,13 @@
   <data name="APPLICATION_WORKMODE_INVALID" xml:space="preserve">
     <value>Modo de trabalho inválido</value>
   </data>
+  <data name="APPLICATION_DATE_EMPTY" xml:space="preserve">
+    <value>A data da vaga não pode ser vázia</value>
+  </data>
+  <data name="APPLICATION_SALARY_INVALID" xml:space="preserve">
+    <value>O salario é inválido</value>
+  </data>
+  <data name="APPLICATION_STATUS_INVALID" xml:space="preserve">
+    <value>Status da vaga inválida</value>
+  </data>
 </root>

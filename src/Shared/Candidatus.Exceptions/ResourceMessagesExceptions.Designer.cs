@@ -61,11 +61,38 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A data da vaga não pode ser vázia.
+        /// </summary>
+        public static string APPLICATION_DATE_EMPTY {
+            get {
+                return ResourceManager.GetString("APPLICATION_DATE_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A descrição da vaga não pode ser vazia.
         /// </summary>
         public static string APPLICATION_DESCRIPTION_EMPTY {
             get {
                 return ResourceManager.GetString("APPLICATION_DESCRIPTION_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O salario é inválido.
+        /// </summary>
+        public static string APPLICATION_SALARY_INVALID {
+            get {
+                return ResourceManager.GetString("APPLICATION_SALARY_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Status da vaga inválida.
+        /// </summary>
+        public static string APPLICATION_STATUS_INVALID {
+            get {
+                return ResourceManager.GetString("APPLICATION_STATUS_INVALID", resourceCulture);
             }
         }
         
