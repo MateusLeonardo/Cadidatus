@@ -1,3 +1,4 @@
+using Candidatus.Domain.Entities;
 using Candidatus.Domain.Repositories.Platform;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,4 +32,6 @@ public class PlatformRepository : IPlatformWriteOnlyRepository, IPlatformReadOnl
 
         _dbContext.Platforms.Remove(platform!);
     }
+
+    public async Task<bool> Exists(int id, User user) => await _dbContext.Platforms.AnyAsync(p => p.Id == id && p.UserId == user.Id);
 }
