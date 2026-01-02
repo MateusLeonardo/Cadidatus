@@ -53,9 +53,12 @@ public class MapsterConfig : IRegister
 
         config.NewConfig<IList<Platform>, ResponseAllPlatformJson>()
             .Map(dest => dest.Platforms, src => src);
+
+        config.NewConfig<IList<Domain.Entities.Application>, ResponseAllApplicationsJson>()
+            .Map(dest => dest.Applications, src => src);
     }
 
-    private void RequestToDomain(TypeAdapterConfig config)
+    private static void RequestToDomain(TypeAdapterConfig config)
     {
         config.NewConfig<RequestRegisterUserJson, User>()
             .Ignore(u => u.Password);
@@ -72,6 +75,9 @@ public class MapsterConfig : IRegister
             .Ignore(c => c.UserId);
 
         config.NewConfig<RequestRegisterPlatformJson, Platform>()
+            .Ignore(p => p.UserId);
+
+        config.NewConfig<RequestRegisterApplicationJson, Domain.Entities.Application>()
             .Ignore(p => p.UserId);
     }
 }
