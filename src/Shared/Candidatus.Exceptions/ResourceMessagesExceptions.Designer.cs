@@ -79,6 +79,15 @@ namespace Candidatus.Exceptions {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A vaga não existe.
+        /// </summary>
+        public static string APPLICATION_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("APPLICATION_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O salario é inválido.
         /// </summary>
         public static string APPLICATION_SALARY_INVALID {

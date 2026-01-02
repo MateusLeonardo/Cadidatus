@@ -216,4 +216,7 @@
   <data name="APPLICATION_STATUS_INVALID" xml:space="preserve">
     <value>Status da vaga inválida</value>
   </data>
+  <data name="APPLICATION_NOT_FOUND" xml:space="preserve">
+    <value>A vaga não existe</value>
+  </data>
 </root>
