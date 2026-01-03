@@ -21,5 +21,16 @@ public class ApplicationRepository : IApplicationWriteOnlyRepository, IApplicati
     async Task<Application?> IApplicationUpdateOnlyRepository.FindById(int id, User user) => await _dbContext.Applications
         .FirstOrDefaultAsync(p => p.Id == id && p.UserId == user.Id);
 
+    async Task<Application?> IApplicationReadOnlyRepository.FindById(int id, User user) => await _dbContext.Applications
+        .AsNoTracking().FirstOrDefaultAsync(p => p.Id == id && p.UserId == user.Id);
+
+
     public void Update(Application application) => _dbContext.Applications.Update(application);
+
+    public async Task Delete(int id)
+    {
+        var application = await _dbContext.Applications.FindAsync(id);
+
+        _dbContext.Applications.Remove(application!);
+    }
 }
